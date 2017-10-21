@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   firstName: String,
   lastName: String,
-  avatar: String,
+  avatar: { type: String, default: 'user.png' },
   email: String,
   password: String,
 });

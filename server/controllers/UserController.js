@@ -43,6 +43,7 @@ class UserController {
             firstName,
             lastName,
             email,
+            avatar,
           } = await User(request.body).save();
 
           response.status(201).json({
@@ -50,7 +51,8 @@ class UserController {
               _id,
               firstName,
               lastName,
-              email
+              email,
+              avatar,
             },
             token: await jwt.sign(
               { _id, email },
@@ -106,6 +108,7 @@ class UserController {
             firstName,
             lastName,
             email,
+            avatar,
           } = existingUser;
           if (passwordMatches) {
             response.status(200).json({
@@ -114,6 +117,7 @@ class UserController {
                 firstName,
                 lastName,
                 email,
+                avatar,
               },
               token: await jwt.sign(
                 { _id, email },
