@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import User from './../models/User';
-import './../config/database';
 
 /**
  * @class UserController
@@ -48,14 +47,14 @@ class UserController {
 
           response.status(201).json({
             userData: {
-              _id,
+              userId: _id,
               firstName,
               lastName,
               email,
               avatar,
             },
             token: await jwt.sign(
-              { _id, email },
+              { userId: _id, email },
               process.env.SECRET_KEY,
               { expiresIn: '1h' }
             )
@@ -113,14 +112,14 @@ class UserController {
           if (passwordMatches) {
             response.status(200).json({
               userData: {
-                _id,
+                userId: _id,
                 firstName,
                 lastName,
                 email,
                 avatar,
               },
               token: await jwt.sign(
-                { _id, email },
+                { userId: _id, email },
                 process.env.SECRET_KEY,
                 { expiresIn: '1h' }
               )
