@@ -1,4 +1,3 @@
-import ToDo from './../models/ToDo';
 import Task from './../models/Task';
 
 /**
@@ -16,25 +15,21 @@ class TaskController {
    * @returns {void}
    */
   static async getTasks(request, response) {
-    try {
-      const toDo = await ToDo.findOne({ _id: request.params.toDoId });
+    const tasks = await Task.find({ toDoId: request.params.toDoId });
 
-      if (toDo) {
-        const tasks = await Task.find({ toDoId: request.params.toDoId });
+    const refinedTasks = tasks.map(task => ({
+      taskId: task._id,
+      toDoId: task.toDoId,
+      title: task.title,
+      priority: task.priority,
+      completed: task.completed,
+      createdAt: task.createdAt,
+      dueAt: task.dueAt,
+    }));
 
-        response.status(200).json({
-          tasks,
-        });
-      } else {
-        response.status(400).json({
-          error: 'To-do does not exist',
-        });
-      }
-    } catch (error) {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
-    }
+    response.status(200).json({
+      tasks: refinedTasks,
+    });
   }
 
   /**
@@ -48,46 +43,32 @@ class TaskController {
      * @returns {void}
      */
   static async createTask(request, response) {
-    try {
-      request.checkBody('title', 'Title is required').notEmpty().trim();
-      request.checkBody('priority', 'Priority is required').notEmpty().trim();
+    request.checkBody('title', 'Title is required').notEmpty().trim();
+    request.checkBody('priority', 'Priority is required').notEmpty().trim();
 
-      const requestErrors = request.validationErrors();
+    const requestErrors = request.validationErrors();
 
-      if (requestErrors) {
-        response.status(400).json({
-          errors: requestErrors
-        });
-      } else {
-        request.sanitizeBody('title').escape();
-        request.sanitizeBody('priority').escape();
+    if (requestErrors) {
+      response.status(400).json({
+        errors: requestErrors
+      });
+    } else {
+      request.sanitizeBody('title').escape();
+      request.sanitizeBody('priority').escape();
 
-        const { title, priority } = request.body;
+      const { title, priority } = request.body;
 
-        const toDo = await ToDo.findOne({ _id: request.params.toDoId });
+      const task = await Task({ toDoId: request.params.toDoId, title, priority }).save();
 
-        if (toDo) {
-          const task = await Task({ toDoId: request.params.toDoId, title, priority }).save();
-
-          response.status(201).json({
-            task: {
-              taskId: task._id,
-              toDoId: task.toDoId,
-              title: task.title,
-              priority: task.priority,
-              createdAt: task.createdAt,
-              dueAt: task.dueAt,
-            }
-          });
-        } else {
-          response.status(400).json({
-            error: 'To-do does not exist'
-          });
+      response.status(201).json({
+        task: {
+          taskId: task._id,
+          toDoId: task.toDoId,
+          title: task.title,
+          priority: task.priority,
+          createdAt: task.createdAt,
+          dueAt: task.dueAt,
         }
-      }
-    } catch (error) {
-      response.status(500).json({
-        error
       });
     }
   }

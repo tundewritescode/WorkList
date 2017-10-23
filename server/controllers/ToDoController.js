@@ -16,8 +16,7 @@ class ToDoController {
    */
   static async getToDos(request, response) {
     try {
-      const toDos = await ToDo.find({ ownerId: request.user.userId }, 'title ownerId');
-
+      const toDos = await ToDo.find({ ownerId: request.user._id });
       const refinedTodos = toDos.map(toDo => ({
         toDoId: toDo._id,
         ownerId: toDo.ownerId,
@@ -60,12 +59,14 @@ class ToDoController {
         const {
           _id,
           userId,
+          ownerId,
           title,
-        } = await ToDo({ title: request.body.title.trim(), ownerId: request.user.userId }).save();
+        } = await ToDo({ title: request.body.title.trim(), ownerId: request.user._id }).save();
 
         response.status(201).json({
           toDo: {
             toDoId: _id,
+            ownerId,
             userId,
             title,
           }
