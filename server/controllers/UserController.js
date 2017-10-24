@@ -56,7 +56,7 @@ class UserController {
             token: await jwt.sign(
               { userId: _id, email },
               process.env.SECRET_KEY,
-              { expiresIn: '1h' }
+              { expiresIn: process.env.AUTH_EXPIRY }
             )
           });
         } else {
@@ -121,7 +121,7 @@ class UserController {
               token: await jwt.sign(
                 { userId: _id, email },
                 process.env.SECRET_KEY,
-                { expiresIn: '1h' }
+                { expiresIn: process.env.AUTH_EXPIRY }
               )
             });
           } else {

@@ -7,6 +7,7 @@ import './config/database';
 import userRoutes from './routes/userRoutes';
 import toDoRoutes from './routes/toDoRoutes';
 import taskRoutes from './routes/taskRoutes';
+import collaboratorRoutes from './routes/collaboratorRoutes';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(expressValidator());
 userRoutes('/api/v1', app);
 toDoRoutes('/api/v1', app);
 taskRoutes('/api/v1', app);
+collaboratorRoutes('/api/v1', app);
 
 app.get('/', (req, res) => {
   res.json({

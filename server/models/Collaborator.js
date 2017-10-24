@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 
 const collaboratorSchema = new Schema({
   toDoId: String,
-  userId: String,
+  collaboratorId: String,
   readOnly: { type: Boolean, default: true }
 });
 
-export default mongoose.model('ToDo', collaboratorSchema);
+export default mongoose.model('Collaborator', collaboratorSchema);

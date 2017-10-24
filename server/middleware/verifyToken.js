@@ -40,7 +40,7 @@ const verifyToken = async (request, response, next) => {
       });
     } else {
       response.status(500).json({
-        error: '',
+        error: 'Oops! Something broke',
       });
     }
   }
