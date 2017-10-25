@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 
 import User from './../models/User';
 
+import Search from './../helpers/Search';
+
 /**
  * @class UserController
  */
@@ -34,14 +36,14 @@ class UserController {
           errors: requestErrors,
         });
       } else {
-        const existingUser = await User.findOne({ email: request.body.email });
+        const { email } = request.body;
+        const existingUser = await Search.searchOne(User, { email });
 
         if (!existingUser) {
           const {
             _id,
             firstName,
             lastName,
-            email,
             avatar,
           } = await User(request.body).save();
 
@@ -94,7 +96,8 @@ class UserController {
           errors: requestErrors,
         });
       } else {
-        const existingUser = await User.findOne({ email: request.body.email });
+        const { email } = request.body;
+        const existingUser = await Search.searchOne(User, { email });
 
         if (existingUser) {
           const passwordMatches = await bcrypt.compare(
@@ -106,7 +109,6 @@ class UserController {
             _id,
             firstName,
             lastName,
-            email,
             avatar,
           } = existingUser;
           if (passwordMatches) {

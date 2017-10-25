@@ -1,5 +1,7 @@
 import ToDo from './../models/ToDo';
 
+import Search from './../helpers/Search';
+
 /**
  * @class ToDoController
  */
@@ -16,7 +18,8 @@ class ToDoController {
    */
   static async getToDos(request, response) {
     try {
-      const toDos = await ToDo.find({ ownerId: request.user._id });
+      const toDos = await Search.searchAll(ToDo, { ownerId: request.user._id });
+
       const refinedTodos = toDos.map(toDo => ({
         toDoId: toDo._id,
         ownerId: toDo.ownerId,
@@ -61,7 +64,10 @@ class ToDoController {
           userId,
           ownerId,
           title,
-        } = await ToDo({ title: request.body.title.trim(), ownerId: request.user._id }).save();
+        } = await ToDo({
+          title: request.body.title.trim(),
+          ownerId: request.user._id,
+        }).save();
 
         response.status(201).json({
           toDo: {

@@ -1,5 +1,7 @@
 import Task from './../models/Task';
 
+import Search from './../helpers/Search';
+
 /**
  * @class TaskController
  */
@@ -15,7 +17,8 @@ class TaskController {
    * @returns {void}
    */
   static async getTasks(request, response) {
-    const tasks = await Task.find({ toDoId: request.params.toDoId });
+    const { toDoId } = request.params;
+    const tasks = await Search.searchAll(Task, { toDoId });
 
     const refinedTasks = tasks.map(task => ({
       taskId: task._id,
@@ -57,8 +60,9 @@ class TaskController {
       request.sanitizeBody('priority').escape();
 
       const { title, priority } = request.body;
+      const { toDoId } = request.params;
 
-      const task = await Task({ toDoId: request.params.toDoId, title, priority }).save();
+      const task = await Task({ toDoId, title, priority }).save();
 
       response.status(201).json({
         task: {

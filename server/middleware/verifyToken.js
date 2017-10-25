@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 
 import User from './../models/User';
 
+import Search from './../helpers/Search';
+
 /**
  * Verifies token
  *
@@ -17,7 +19,7 @@ const verifyToken = async (request, response, next) => {
     if (token) {
       const payload = await jwt.verify(token, process.env.SECRET_KEY);
 
-      const user = await User.findById(payload.userId);
+      const user = await Search.searchById(User, payload.userId);
 
       if (user) {
         request.user = user;

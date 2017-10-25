@@ -10,7 +10,12 @@ const collaboratorRoutes = (versionURL, app) => {
     authorizeUser,
     CollaboratorController.getCollaborators
   );
-  // app.post(`${versionURL}/todos/:toDoId/collaborators/add`, UserController.signIn);
+  app.post(
+    `${versionURL}/todos/:toDoId/collaborators/add`,
+    verifyToken,
+    authorizeUser,
+    CollaboratorController.addCollaborators
+  );
 };
 
 export default collaboratorRoutes;
