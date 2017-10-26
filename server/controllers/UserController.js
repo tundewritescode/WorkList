@@ -117,7 +117,7 @@ class UserController {
           } = existingUser;
           if (passwordMatches) {
             response.status(200).json({
-              userData: {
+              user: {
                 userId: _id,
                 firstName,
                 lastName,
