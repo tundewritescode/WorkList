@@ -10,8 +10,10 @@ class TaskController {
    * Gets all tasks in a to-do
    *
    * @static
+   *
    * @param {Object} request - request object
    * @param {Object} response - response object
+   *
    * @memberof ToDoController
    *
    * @returns {void}
@@ -39,8 +41,10 @@ class TaskController {
      * Creates a task inside a to-do
      *
      * @static
-     * @param {any} request - request object
-     * @param {any} response - response object
+     *
+     * @param {Object} request - request object
+     * @param {Object} response - response object
+     *
      * @memberof ToDoController
      *
      * @returns {void}

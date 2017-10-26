@@ -6,8 +6,10 @@ class Search {
    * Searches for one occurrence of a given query
    *
    * @static
+   *
    * @param {Object} model - model to be searched
    * @param {Object} queryObject - term and field
+   *
    * @memberof Search
    *
    * @returns {Promise} - a promise containing the result
@@ -20,8 +22,10 @@ class Search {
    * Searches for all occurrences of a given query
    *
    * @static
+   *
    * @param {Object} model - model to be searched
    * @param {Object} queryObject - term and field
+   *
    * @memberof Search
    *
    * @returns {Promise} - a promise containing the result
@@ -34,8 +38,10 @@ class Search {
    * Search for one occurrence of a MongoDB ObjectId
    *
    * @static
+   *
    * @param {Object} model - model to be searched
-   * @param {String} queryString - term to look for
+   * @param {string} queryString - term to look for
+   *
    * @memberof Search
    *
    * @returns {Promise} - a promise containing the result

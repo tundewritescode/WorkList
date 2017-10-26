@@ -27,9 +27,15 @@ const authorizeUser = async (request, response, next) => {
       });
     }
   } catch (error) {
-    response.status(500).json({
-      error: 'Oops! Something broke',
-    });
+    if (error.name === 'CastError' && error.kind === 'ObjectId') {
+      response.status(400).json({
+        error: 'toDoId is invalid'
+      });
+    } else {
+      response.status(500).json({
+        error: 'Oops! Something broke',
+      });
+    }
   }
 };
 

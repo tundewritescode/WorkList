@@ -13,8 +13,10 @@ class UserController {
    * Registers a new user
    *
    * @static
-   * @param {object} request - request object
-   * @param {object} response - response object
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
    * @memberof UserController
    *
    * @returns {void}
@@ -48,7 +50,7 @@ class UserController {
           } = await User(request.body).save();
 
           response.status(201).json({
-            userData: {
+            user: {
               userId: _id,
               firstName,
               lastName,
@@ -78,8 +80,10 @@ class UserController {
    * Signs in a new user
    *
    * @static
-   * @param {object} request - request object
-   * @param {object} response - response object
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
    * @memberof UserController
    *
    * @returns {void}

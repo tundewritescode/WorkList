@@ -11,8 +11,10 @@ class CollaboratorController {
    * Gets all collaborators on a to-do
    *
    * @static
+   *
    * @param {Object} request - request object
    * @param {Object} response - response object
+   *
    * @memberof CollaboratorController
    *
    * @returns {void}
@@ -37,8 +39,10 @@ class CollaboratorController {
    * Add collaborators to a to-do
    *
    * @static
+   *
    * @param {Object} request - request object
    * @param {Object} response - request object
+   *
    * @memberof CollaboratorController
    *
    * @returns {void}
@@ -83,8 +87,14 @@ class CollaboratorController {
           const collaborator = await Collaborator({ toDoId, collaboratorId })
             .save();
 
+          const refinedCollaborator = {
+            toDoId: collaborator.toDoId,
+            collaboratorId: collaborator.collaboratorId,
+            readOnly: collaborator.readOnly,
+          };
+
           response.status(201).json({
-            collaborator,
+            collaborator: refinedCollaborator,
           });
         }
       }

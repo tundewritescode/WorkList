@@ -10,8 +10,10 @@ class ToDoController {
    * Gets all to-dos
    *
    * @static
-   * @param {any} request - request object
-   * @param {any} response - response object
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
    * @memberof ToDoController
    *
    * @returns {void}
@@ -40,8 +42,10 @@ class ToDoController {
    * Creates a new to-do
    *
    * @static
-   * @param {any} request - request object
-   * @param {any} response - response object
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
    * @memberof ToDoController
    *
    * @returns {void}
