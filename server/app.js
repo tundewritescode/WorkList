@@ -25,3 +25,5 @@ fileRoutes('/api/v1', app);
 collaboratorRoutes('/api/v1', app);
 
 app.listen(process.env.PORT);
+
+export default app;

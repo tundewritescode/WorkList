@@ -41,7 +41,7 @@ class FileController {
           fs.mkdirSync(uploadDir);
         }
 
-        await avatar.mv(`server/uploads/${avatar.name}`);
+        await avatar.mv(`${uploadDir}/${avatar.name}`);
 
         const uploadedAvatar = await cloudinary
           .v2.uploader.upload(`${uploadDir}/${avatar.name}`);

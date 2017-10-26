@@ -1,0 +1,32 @@
+[
+  {
+    "firstName": "damian",
+    "lastName": "hayden",
+    "email": "Damian.HAYD2740@monumentmail.com",
+    "password": "a0b4d7e4-c207-492a-ac46-d7ac58323b81"
+  },
+  {
+    "firstName": "esmeralda",
+    "lastName": "orr",
+    "email": "Esmeralda.O2308@mailinator.com",
+    "password": "2f643e8c-76c4-4b17-b24d-10e59b592068"
+  },
+  {
+    "firstName": "cristina",
+    "lastName": "maddox",
+    "email": "Cristi.MADDO3848@reallymymail.com",
+    "password": "78099dcb-14b4-45bd-98f8-9c429125ade8"
+  },
+  {
+    "firstName": "monica",
+    "lastName": "hammond",
+    "email": "Monic.HAM2193@monumentmail.com",
+    "password": "b2357c28-cb79-4bbe-8af6-5b2915b7aa86"
+  },
+  {
+    "firstName": "adrien",
+    "lastName": "ramirez",
+    "email": "Adr.RAMIREZ5775@monumentmail.com",
+    "password": "49477b10-88c4-4678-a1fc-c3049ee5241d"
+  }
+]
