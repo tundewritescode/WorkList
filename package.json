@@ -6,7 +6,7 @@
   "scripts": {
     "local": "nodemon server/app --exec babel-node",
     "test": "mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
-    "coverage": "nyc --reporter=html --reporter=text mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
+    "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls"
   },
   "repository": {
