@@ -2,7 +2,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import User from './../models/User';
-import './../config/database';
+
+import Search from './../helpers/Search';
 
 /**
  * @class UserController
@@ -12,8 +13,10 @@ class UserController {
    * Registers a new user
    *
    * @static
-   * @param {object} request - request object
-   * @param {object} response - response object
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
    * @memberof UserController
    *
    * @returns {void}
@@ -35,29 +38,29 @@ class UserController {
           errors: requestErrors,
         });
       } else {
-        const existingUser = await User.findOne({ email: request.body.email });
+        const { email } = request.body;
+        const existingUser = await Search.searchOne(User, { email });
 
         if (!existingUser) {
           const {
             _id,
             firstName,
             lastName,
-            email,
             avatar,
           } = await User(request.body).save();
 
           response.status(201).json({
-            userData: {
-              _id,
+            user: {
+              userId: _id,
               firstName,
               lastName,
               email,
               avatar,
             },
             token: await jwt.sign(
-              { _id, email },
+              { userId: _id, email },
               process.env.SECRET_KEY,
-              { expiresIn: '1h' }
+              { expiresIn: process.env.AUTH_EXPIRY }
             )
           });
         } else {
@@ -77,8 +80,10 @@ class UserController {
    * Signs in a new user
    *
    * @static
-   * @param {object} request - request object
-   * @param {object} response - response object
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
    * @memberof UserController
    *
    * @returns {void}
@@ -95,7 +100,8 @@ class UserController {
           errors: requestErrors,
         });
       } else {
-        const existingUser = await User.findOne({ email: request.body.email });
+        const { email } = request.body;
+        const existingUser = await Search.searchOne(User, { email });
 
         if (existingUser) {
           const passwordMatches = await bcrypt.compare(
@@ -107,22 +113,21 @@ class UserController {
             _id,
             firstName,
             lastName,
-            email,
             avatar,
           } = existingUser;
           if (passwordMatches) {
             response.status(200).json({
               userData: {
-                _id,
+                userId: _id,
                 firstName,
                 lastName,
                 email,
                 avatar,
               },
               token: await jwt.sign(
-                { _id, email },
+                { userId: _id, email },
                 process.env.SECRET_KEY,
-                { expiresIn: '1h' }
+                { expiresIn: process.env.AUTH_EXPIRY }
               )
             });
           } else {
