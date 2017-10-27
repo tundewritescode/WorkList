@@ -7,6 +7,9 @@
     "es6": true,
     "mocha": true
   },
+  "globals": {
+    "document": true
+  },
   "rules": {
     "import/extensions": 0,
     "camelcase": 0,

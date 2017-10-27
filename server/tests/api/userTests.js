@@ -1,6 +1,5 @@
 import chai from 'chai';
 import request from 'supertest';
-import 'babel-polyfill';
 
 import User from './../../models/User';
 import users from './../testData/users';
