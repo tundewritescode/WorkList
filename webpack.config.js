@@ -33,7 +33,8 @@ export default {
                   browsers: ['last 2 versions']
                 }
               }]
-            ]
+            ],
+            plugins: ['transform-object-rest-spread']
           }
         },
         exclude: /node_modules/,
@@ -44,7 +45,7 @@ export default {
         exclude: /node_modules/
       },
       {
-        test: /\.(jpg|png|gif|svg)$/,
+        test: /\.(jpg|jpeg|png|gif|svg)$/,
         use: 'file-loader',
         exclude: /node_modules/
       },

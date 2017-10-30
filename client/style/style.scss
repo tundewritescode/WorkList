@@ -1,0 +1,162 @@
+$white: #fff;
+$nearBlack: #c4c4c4;
+$black: #000;
+$lightGreen: #87c4ae;
+$purple: rgb(137, 55, 154);
+$lighterPurple: rgb(160, 95, 175);
+$medium-screen: 1024px !default;
+$medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
+
+.row {
+  margin-bottom: 0;
+}
+
+.purple {
+  background: $purple;
+  padding-left: 20px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.white {
+  background: $white;
+  color: $purple;
+  padding-right: 20px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.container-fluid {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h5 {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.btn-large {
+  background: $purple;
+  border-radius: 25px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  &:hover {
+    background: $lighterPurple;
+  }
+}
+
+nav {
+  background: transparent;
+  box-shadow: none;
+
+  .cta-small {
+    background: $purple;
+    border-radius: 25px;
+    &:hover {
+      background: $lighterPurple;
+    }
+  }
+}
+
+header, .overlay, {
+  height: 80vh;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.hero {
+  height: 65vh;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header {
+  background-image: url('images/background.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  color: $white;
+}
+
+.overlay {
+  background: rgba(136, 55, 154, 0.274);
+}
+
+.heading, .copy {
+  text-shadow: 2px 5px 10px $black !important;
+}
+
+.heading {
+  font-weight: 500;
+}
+
+.copy {
+  font-size: 30px;
+  width: 40%;
+  display: block;
+  letter-spacing: 1px;
+  @media #{$medium-and-down} {
+    width: 80%;
+  }
+}
+
+.expose {
+  padding: 70px 0;
+  background: $white;
+  h5 {
+    text-align: center;
+  }
+
+  .cards {
+    padding: 10px 0 0 0;
+  }
+  
+  .now {
+    text-align: center;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 3px 20px $nearBlack;
+    font-family: 'Montserrat Alternates', sans-serif;
+    &:hover {
+      box-shadow: 0 10px 40px $nearBlack;
+    }
+  }
+}
+
+.about {
+  background-image: url('images/startup2.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  text-align: center;
+  color: $white;
+  h5 {
+    text-decoration: underline;
+    text-decoration-color: $purple;
+  }
+  a {
+    color: $purple;
+    text-decoration: underline;
+    text-decoration-color: $white;
+  }
+
+  .content {
+    padding: 70px 0;
+    font-family: 'Montserrat Alternates', sans-serif;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .overlay2 {
+    background: rgba(136, 55, 154, 0.274);
+  }
+}
+
+.page-footer {
+  background: $purple;
+  padding-top: 0;
+  font-family: 'Montserrat Alternates', sans-serif;
+}

@@ -1,12 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-const Hi = () => (
-  <h1>Hi WorkList 2</h1>
-);
+import Root from './components/Root.jsx';
+import './style/style.scss';
 
-render(<Hi />, document.getElementById('root'));
-
+render(<Root />, document.getElementById('root'));
 
 if (module.hot) {
   module.hot.accept();

@@ -21,6 +21,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
+app.use(express.static('client/assets'));
 app.use(fileUpload());
 
 userRoutes('/api/v1', app);
