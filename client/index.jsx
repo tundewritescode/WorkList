@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import Root from './components/Root.jsx';
+import Routes from './routes/Routes.jsx';
 import './style/style.scss';
 
-render(<Root />, document.getElementById('root'));
+render(<Routes />, document.getElementById('root'));
 
 if (module.hot) {
   module.hot.accept();

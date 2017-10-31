@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Expose = () => (
   <section className="expose">
@@ -61,11 +62,12 @@ const Expose = () => (
     <div className="row">
       <div className="container-fluid">
         <p className="now">
-          <a
+          <Link
+            href="/sign-up"
+            to="/sign-up"
             className="btn btn-large animated pulse infinite"
-            href="/get-started"
           >Get Started Now
-          </a>
+          </Link>
         </p>
       </div>
     </div>

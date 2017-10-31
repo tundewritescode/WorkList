@@ -13,7 +13,7 @@ $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 
 .purple {
   background: $purple;
-  padding-left: 20px;
+  padding-left: 10px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
 }
@@ -21,7 +21,7 @@ $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 .white {
   background: $white;
   color: $purple;
-  padding-right: 20px;
+  padding-right: 10px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
@@ -152,6 +152,41 @@ header {
 
   .overlay2 {
     background: rgba(136, 55, 154, 0.274);
+  }
+}
+
+.dashboard, .auth {
+  font-family: 'Montserrat Alternates', sans-serif;
+  background: $white;
+  color: $black;
+  nav {
+    background: rgba(136, 55, 154, 0.274);
+  }
+
+  h4 {
+    text-align: center;
+  }
+
+}
+
+.auth {
+  .form {
+    width: 70% !important;
+    margin: 40px auto !important;
+    box-shadow: 2px 2px 40px $nearBlack !important;
+    border-radius: 5px;
+    overflow: auto;
+    padding: 0 30px 35px;
+
+    input {
+      border-bottom: 1px solid $purple;
+      &:focus {
+        border-bottom: 1px solid $purple !important;
+      }
+    }
+    .active {
+      color: $purple !important;
+    }
   }
 }
 

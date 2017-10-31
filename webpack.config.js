@@ -1,24 +1,36 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './index.html',
-  filename: 'index.html',
-  inject: 'body'
-});
-
-const DIST_DIR = path.join(__dirname, 'dist');
-const CLIENT_DIR = path.join(__dirname, 'client');
-
-export default {
-  context: CLIENT_DIR,
-  entry: ['webpack-hot-middleware/client', './index.jsx'],
+const config = [{
+  entry: [
+    'webpack-hot-middleware/client',
+    path.join(__dirname, '/client/index.jsx'),
+  ],
   output: {
-    path: `${DIST_DIR}/client`,
+    path: path.join(__dirname, '/dist'),
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.min.js',
   },
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
+  ],
+  devServer: {
+    inline: true,
+  },
+  // resolve: {
+  //   extensions: ['.js', '.jsx'],
+  // },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -45,16 +57,12 @@ export default {
         exclude: /node_modules/
       },
       {
-        test: /\.(jpg|jpeg|png|gif|svg)$/,
+        test: /\.(jpg|jpeg|png|gif)$/,
         use: 'file-loader',
         exclude: /node_modules/
       },
     ]
-  },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    HtmlWebpackPluginConfig
-  ]
-};
+  }
+}];
+
+module.exports = config;
