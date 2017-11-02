@@ -70,9 +70,7 @@ class UserController {
         }
       }
     } catch (error) {
-      response.status(500).json({
-        error: 'Oops! Something broke!'
-      });
+      response.sendStatus(500);
     }
   }
 
@@ -132,7 +130,7 @@ class UserController {
             });
           } else {
             response.status(401).json({
-              error: 'Username and password do not match'
+              error: 'Invalid credentials'
             });
           }
         } else {
@@ -142,9 +140,7 @@ class UserController {
         }
       }
     } catch (error) {
-      response.status(500).json({
-        error: 'Oops! Something broke'
-      });
+      response.sendStatus(500);
     }
   }
 }

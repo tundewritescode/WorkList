@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 
 import Nav from './../presentational/Nav.jsx';
 import Brand from './../presentational/Brand.jsx';
+import ToDo from './../presentational/ToDo.jsx';
 import createToDo from './../../actions/createToDo';
 
 /**
@@ -126,37 +127,7 @@ class Dashboard extends Component {
           <div className="row">
             <div className="container">
               <div className="todos">
-                <div className="col s12 l4">
-                  <div className="card todo">
-                    <Link href="todoId" to="todoId">
-                      <div className="card-content">
-                        <span className="card-title">
-                          A new todo
-                        </span>
-                        <p className="todo-info">
-                          <i
-                            className="material-icons todo-info-icon"
-                          >account_circle
-                          </i> Babatunde Adeyemi
-                        </p>
-                        <p className="todo-info">
-                          <i
-                            className="material-icons todo-info-icon"
-                          >date_range
-                          </i> 01/11/2017
-                        </p>
-                      </div>
-                    </Link>
-                    <div className="card-action">
-                      <Link to="#edit" href="#edit">
-                        <i className="material-icons">edit</i>
-                      </Link>
-                      <Link to="#delete" href="#delet">
-                        <i className="material-icons">delete_forever</i>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                <ToDo toDoId="sdfjsldfjl" title="Are you sick?" owner="Babatunde Adeyemi" />
               </div>
             </div>
           </div>

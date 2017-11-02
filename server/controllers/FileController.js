@@ -1,14 +1,5 @@
-import cloudinary from 'cloudinary';
-import fs from 'fs';
-import del from 'del';
-
 import User from './../models/User';
-
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
-});
+import fileUpload from './../helpers/fileUpload';
 
 /**
  * @class FileController
@@ -35,18 +26,7 @@ class FileController {
       } else {
         const { avatar } = request.files;
 
-        const uploadDir = 'server/uploads';
-
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir);
-        }
-
-        await avatar.mv(`${uploadDir}/${avatar.name}`);
-
-        const uploadedAvatar = await cloudinary
-          .v2.uploader.upload(`${uploadDir}/${avatar.name}`);
-
-        const { public_id, format } = uploadedAvatar;
+        const { public_id, format } = await fileUpload(avatar);
 
         const {
           _id,
@@ -57,8 +37,6 @@ class FileController {
           request.user._id,
           { avatar: `${public_id}.${format}` },
         );
-
-        await del(['server/uploads/**']);
 
         response.status(200).json({
           user: {
@@ -76,9 +54,7 @@ class FileController {
           error: error.message
         });
       } else {
-        response.status(500).json({
-          error: 'Oops! Something broke',
-        });
+        response.sendStatus(500);
       }
     }
   }

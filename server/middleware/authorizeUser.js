@@ -32,9 +32,7 @@ const authorizeUser = async (request, response, next) => {
         error: 'toDoId is invalid'
       });
     } else {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
+      response.sendStatus(500);
     }
   }
 };

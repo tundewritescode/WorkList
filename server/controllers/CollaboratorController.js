@@ -69,7 +69,7 @@ class CollaboratorController {
           error: 'User does not exist',
         });
       } else {
-        const collaboratorId = existingUser.id;
+        const collaboratorId = existingUser._id;
 
         const existingCollaborator = await Search.searchOne(
           Collaborator,

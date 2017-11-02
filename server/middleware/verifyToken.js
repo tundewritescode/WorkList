@@ -41,9 +41,7 @@ const verifyToken = async (request, response, next) => {
         error: 'Token has expired',
       });
     } else {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
+      response.sendStatus(500);
     }
   }
 };
