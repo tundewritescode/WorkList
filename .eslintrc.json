@@ -9,10 +9,12 @@
   },
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "localStorage": true
   },
   "rules": {
     "import/extensions": 0,
+    "jsx-a11y/label-has-for": 0,
     "camelcase": 0,
     "no-underscore-dangle": 0,
     "import/no-unresolved": 0,

@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import history from './utils/history';
 import reducers from './reducers/reducers';
 
+// Redux store
 const store = createStore(
   reducers,
   window.devToolsExtension ? window.devToolsExtension() : f => f,

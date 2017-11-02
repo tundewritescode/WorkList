@@ -1,5 +1,5 @@
-const path = require('path');
-const webpack = require('webpack');
+import path from 'path';
+import webpack from 'webpack';
 
 const config = [{
   entry: [
@@ -27,9 +27,6 @@ const config = [{
   devServer: {
     inline: true,
   },
-  // resolve: {
-  //   extensions: ['.js', '.jsx'],
-  // },
   devtool: 'source-map',
   module: {
     rules: [
@@ -65,4 +62,4 @@ const config = [{
   }
 }];
 
-module.exports = config;
+export default config;

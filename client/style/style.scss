@@ -157,16 +157,54 @@ header {
 
 .dashboard, .auth {
   font-family: 'Montserrat Alternates', sans-serif;
-  background: $white;
   color: $black;
   nav {
-    background: rgba(136, 55, 154, 0.274);
+    background: $lighterPurple;
   }
 
   h4 {
     text-align: center;
   }
+}
 
+.dashboard {
+  .content {
+    margin-left: 180px;
+    background: #F4F8F9;
+    padding-top: 40px;
+    height: 90vh;
+    .container-fluid {
+      width: 90%;    
+    }
+  }
+  .container-fluid {
+    width: 99%;
+  }
+}
+
+.side-nav {
+  margin-top: 64px;
+  width: 180px;
+  background: $white;  
+  .name {
+    margin-top: -12px !important;
+    text-align: center;
+    margin-left: -20px;
+    float: left;
+  }
+
+  color: black;
+  a {
+    color: $purple;
+  }
+}
+
+.avatar {
+  padding: 0 !important;
+  margin: 40px 0 10px 20px !important;
+  img {
+    border-radius: 100%;
+  }
 }
 
 .auth {
@@ -191,7 +229,42 @@ header {
 }
 
 .page-footer {
-  background: $purple;
+  background: $lighterPurple;
   padding-top: 0;
   font-family: 'Montserrat Alternates', sans-serif;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.todos {
+  padding: 30px 0;
+}
+
+.todo {
+  border-radius: 10px;
+  a {
+    color: $black;
+  }
+  .card-action {
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+  }
+  .card-action a {
+    color: $purple !important;
+  }
+}
+
+.todo-info {
+  font-size: 11px;
+  padding-bottom: 10px;
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.todo-info-icon {
+  font-size: 16px;
+  vertical-align: text-bottom;
 }

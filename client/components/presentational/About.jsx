@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * About
+ *
+ * @returns {Object} - About component
+ */
 const About = () => (
   <section className="about" id="about">
     <div className="overlay2">

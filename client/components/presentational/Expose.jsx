@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Expose
+ *
+ * @returns {Object} - Expose component
+ */
 const Expose = () => (
   <section className="expose">
     <div className="row">

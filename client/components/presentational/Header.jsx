@@ -6,7 +6,6 @@ import Brand from './Brand.jsx';
 
 /**
  * Header component
- * @param {Object} props
  *
  * @returns {Object} - Header component
  */
