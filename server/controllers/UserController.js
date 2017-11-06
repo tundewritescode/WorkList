@@ -143,6 +143,56 @@ class UserController {
       response.sendStatus(500);
     }
   }
+
+  /**
+   * Updates profile
+   *
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   */
+  static async editProfile(request, response) {
+    try {
+      request.checkBody('firstName', 'Fisrt name is required').notEmpty().trim();
+      request.checkBody('lastName', 'Last name is required').notEmpty().trim();
+
+      const requestErrors = request.validationErrors();
+
+      if (requestErrors) {
+        response.status(400).json({
+          errors: requestErrors,
+        });
+      } else {
+        request.sanitizeBody('firstName').escape();
+        request.sanitizeBody('lastName').escape();
+
+        const {
+          _id,
+          email,
+          avatar,
+          firstName,
+          lastName,
+        } = await User.findByIdAndUpdate(
+          request.user._id,
+          {
+            firstName: request.body.firstName,
+            lastName: request.body.lastName,
+          }
+        );
+
+        response.status(200).json({
+          userId: _id,
+          email,
+          avatar,
+          firstName,
+          lastName,
+        });
+      }
+    } catch (error) {
+      response.sendStatus(500);
+    }
+  }
 }
 
 export default UserController;

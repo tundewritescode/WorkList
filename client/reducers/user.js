@@ -1,4 +1,4 @@
-import { Auth } from './../actions/types';
+import { Auth, Profile } from './../actions/types';
 
 const initialState = {
   isAuthenticated: false,
@@ -7,6 +7,7 @@ const initialState = {
   lastName: '',
   email: '',
   avatar: '',
+  token: '',
   error: '',
 };
 
@@ -29,6 +30,18 @@ export default (state = initialState, action) => {
         lastName: action.user.user.lastName,
         email: action.user.user.email,
         avatar: action.user.user.avatar,
+        token: action.user.token
+      };
+    case Profile.UPLOAD_FILE_SUCCESS:
+      return {
+        ...state,
+        avatar: action.user.user.avatar,
+      };
+    case Profile.EDIT_PROFILE_SUCCESS:
+      return {
+        ...state,
+        firstName: action.user.user.firstName,
+        lastName: action.user.user.lastName,
       };
     case Auth.SET_USER_FAILURE:
       return {

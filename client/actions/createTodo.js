@@ -12,21 +12,21 @@ import { ToDo } from './types';
 const createToDoSuccess = toDo => (
   {
     type: ToDo.CREATE_TODO_SUCCESS,
-    toDo
+    toDo,
   }
 );
 
 /**
  * Create todo failure action
  *
- * @param {Object} error - error info
+ * @param {Object} error - error data to be dispatched
  *
  * @returns {Object} - action type and payload
  */
 const createToDoFailure = error => (
   {
     type: ToDo.CREATE_TODO_FAILURE,
-    error
+    error,
   }
 );
 
@@ -40,7 +40,7 @@ const createToDoFailure = error => (
 const createToDo = toDo => async (dispatch) => {
   try {
     const { data } = await axios.post('/api/v1/todos/create', toDo);
-    dispatch(createToDoSuccess(data));
+    dispatch(createToDoSuccess(data.toDo));
   } catch (error) {
     dispatch(createToDoFailure(error));
   }

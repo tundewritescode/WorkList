@@ -10,7 +10,9 @@
   "globals": {
     "document": true,
     "window": true,
-    "localStorage": true
+    "localStorage": true,
+    "$": true,
+    "FormData": true
   },
   "rules": {
     "import/extensions": 0,

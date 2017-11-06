@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Image } from 'cloudinary-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -8,7 +7,11 @@ import { bindActionCreators } from 'redux';
 import Nav from './../presentational/Nav.jsx';
 import Brand from './../presentational/Brand.jsx';
 import ToDo from './../presentational/ToDo.jsx';
+import Profile from './../container/Profile.jsx';
+import ChangeProfile from './../container/ChangeProfile.jsx';
+
 import createToDo from './../../actions/createToDo';
+import getToDos from './../../actions/getToDos';
 
 /**
  * Dashboard
@@ -19,14 +22,24 @@ class Dashboard extends Component {
    */
   constructor() {
     super();
-    this.state = {
+
+    this.initialState = {
       title: ''
     };
 
+    this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * Preloads all todo
+   *
+   * @returns {void}
+   */
+  componentWillMount() {
+    this.props.getToDos();
+  }
   /**
    * Handles onChange event on input fields
    * @param {Object} event - the input field onChange event
@@ -55,6 +68,17 @@ class Dashboard extends Component {
    * @returns {Object} - the dashboard component
    */
   render() {
+    let toDos;
+    if (this.props.toDos.length) {
+      toDos = this.props.toDos.map(toDo => (
+        <ToDo
+          key={toDo.toDoId}
+          toDoId={toDo.toDoId}
+          title={toDo.title}
+          owner={`${toDo.ownerId.firstName} ${toDo.ownerId.lastName}`}
+        />
+      ));
+    }
     return (
       <section className="dashboard">
         <Nav>
@@ -79,15 +103,7 @@ class Dashboard extends Component {
           <ul id="slide-out" className="side-nav fixed">
             <li>
               <div className="user-view avatar">
-                <Image
-                  cloudName="duc7lbtnq"
-                  publicId="m8xeafikdw6rujskghd7"
-                  width="140"
-                  crop="scale"
-                />
-                <div className="name">
-                  <Link to="/heye" href="/heye">Babatunde Adeyemi</Link>
-                </div>
+                <Profile />
               </div>
             </li>
           </ul>
@@ -127,11 +143,14 @@ class Dashboard extends Component {
           <div className="row">
             <div className="container">
               <div className="todos">
-                <ToDo toDoId="sdfjsldfjl" title="Are you sick?" owner="Babatunde Adeyemi" />
+                {
+                  toDos
+                }
               </div>
             </div>
           </div>
         </div>
+        <ChangeProfile key="edit-profile" />
       </section>
     );
   }
@@ -139,10 +158,18 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   createToDo: PropTypes.func.isRequired,
+  getToDos: PropTypes.func.isRequired,
+  toDos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ createToDo }, dispatch)
+  bindActionCreators({ createToDo, getToDos }, dispatch)
 );
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+const mapStateToProps = state => (
+  {
+    toDos: state.toDos
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
