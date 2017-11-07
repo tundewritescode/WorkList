@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { GoogleLogin } from 'react-google-login';
 
 import Nav from './../presentational/Nav.jsx';
 import Brand from './../presentational/Brand.jsx';
@@ -22,17 +23,21 @@ class SignUp extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGoogle = this.handleGoogle.bind(this);
   }
 
   /**
    * Handles onChange event on input fields
+   *
    * @param {Object} event - the input field onChange event
+   *
    * @memberof SignUp
+   *
    * @returns {void}
    */
   handleChange(event) {
@@ -41,14 +46,43 @@ class SignUp extends Component {
 
   /**
    * Handles onSubit event on form submission
+   *
    * @param {Object} event - the form onSubmit event
+   *
    * @memberof SignUp
+   *
    * @returns {void}
    */
   handleSubmit(event) {
     event.preventDefault();
     this.props.setUser(this.state, 'signup');
     this.setState(this.initialState);
+  }
+
+  /**
+   * Handles Google Sign up
+   *
+   * @param {Object} user - user details from Google
+   *
+   * @memberof SignUp
+   *
+   * @returns {void}
+   */
+  handleGoogle(user) {
+    const {
+      email,
+      givenName,
+      familyName,
+    } = user.profileObj;
+
+    const newUser = {
+      email,
+      firstName: givenName,
+      lastName: familyName,
+      socialAuth: true,
+    };
+
+    this.props.setUser(newUser, 'signup');
   }
 
   /**
@@ -75,6 +109,11 @@ class SignUp extends Component {
         <div className="row">
           <div className="form">
             <form action="" className="col s12" onSubmit={this.handleSubmit}>
+              <GoogleLogin
+                clientId="395337075846-o26c3gdjf2eujf30eo7ik20t2c5oec5k.apps.googleusercontent.com"
+                buttonText="Sign up with Google"
+                onSuccess={this.handleGoogle}
+              />
               <h4>Sign up</h4>
               <div className="row">
                 <div className="input-field col s12">

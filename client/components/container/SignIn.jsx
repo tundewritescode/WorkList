@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { GoogleLogin } from 'react-google-login';
 
 import Nav from './../presentational/Nav.jsx';
 import Brand from './../presentational/Brand.jsx';
@@ -25,6 +26,7 @@ class SignIn extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleGoogle = this.handleGoogle.bind(this);
   }
 
   /**
@@ -50,6 +52,21 @@ class SignIn extends Component {
   }
 
   /**
+ * Handles Google Sign up
+ *
+ * @param {Object} user - user details from Google
+ *
+ * @memberof SignIn
+ *
+ * @returns {void}
+ */
+  handleGoogle(user) {
+    const { email } = user.profileObj;
+
+    this.props.setUser({ email, socialAuth: true }, 'signin');
+  }
+
+  /**
    * Renders the SignUp component
    *
    * @returns {Object} - SignUp Component
@@ -72,6 +89,11 @@ class SignIn extends Component {
 
         <div className="row">
           <div className="form">
+            <GoogleLogin
+              clientId="395337075846-o26c3gdjf2eujf30eo7ik20t2c5oec5k.apps.googleusercontent.com"
+              buttonText="Sign in with Google"
+              onSuccess={this.handleGoogle}
+            />
             <form action="" className="col s12" onSubmit={this.handleSubmit}>
               <h4>Sign in</h4>
               <div className="row">
@@ -113,7 +135,7 @@ class SignIn extends Component {
             </form>
           </div>
         </div>
-      </section>
+      </section >
     );
   }
 }

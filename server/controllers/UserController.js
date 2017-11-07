@@ -26,10 +26,13 @@ class UserController {
       request.checkBody('firstName', 'Invalid first name').isAlpha();
       request.checkBody('lastName', 'Invalid last name').isAlpha();
       request.checkBody('email', 'Invalid email').isEmail();
-      request.checkBody('password', 'Paswword must be at least 8 characters')
-        .isLength({ min: 8 });
-      request.checkBody('password', 'Paswword must contain at least one number')
-        .matches(/\d/);
+
+      if (!request.body.socialAuth) {
+        request.checkBody('password', 'Paswword must be at least 8 characters')
+          .isLength({ min: 8 });
+        request.checkBody('password', 'Paswword must contain at least one number')
+          .matches(/\d/);
+      }
 
       const requestErrors = request.validationErrors();
 
@@ -40,7 +43,6 @@ class UserController {
       } else {
         const { email } = request.body;
         const existingUser = await Search.searchOne(User, { email });
-
         if (!existingUser) {
           const {
             _id,
@@ -89,7 +91,10 @@ class UserController {
   static async signIn(request, response) {
     try {
       request.checkBody('email', 'Email is required').isEmail();
-      request.checkBody('password', 'Password is required').notEmpty();
+
+      if (!request.body.socialAuth) {
+        request.checkBody('password', 'Password is required').notEmpty();
+      }
 
       const requestErrors = request.validationErrors();
 
@@ -102,18 +107,22 @@ class UserController {
         const existingUser = await Search.searchOne(User, { email });
 
         if (existingUser) {
-          const passwordMatches = await bcrypt.compare(
-            request.body.password,
-            existingUser.password
-          );
+          let passwordMatches;
+          if (!request.body.socialAuth) {
+            passwordMatches = await bcrypt.compare(
+              request.body.password,
+              existingUser.password
+            );
+          }
 
-          const {
-            _id,
-            firstName,
-            lastName,
-            avatar,
-          } = existingUser;
-          if (passwordMatches) {
+          if (passwordMatches || existingUser.socialAuth) {
+            const {
+              _id,
+              firstName,
+              lastName,
+              avatar,
+            } = existingUser;
+
             response.status(200).json({
               user: {
                 userId: _id,

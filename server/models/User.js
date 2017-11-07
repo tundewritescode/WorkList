@@ -9,13 +9,18 @@ const userSchema = new Schema({
   avatar: { type: String, default: 'user.png' },
   email: String,
   password: String,
+  socialAuth: { type: Boolean, default: false }
 });
 
 /**
  * Hashes the password before saving to database
  */
 userSchema.pre('save', async function hashPassword(next) {
-  this.password = await bcrypt.hash(this.password, 10);
+  if (this.socialAuth) {
+    this.password = null;
+  } else {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   next();
 });
