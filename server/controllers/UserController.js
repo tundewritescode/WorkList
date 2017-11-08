@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import User from './../models/User';
-
 import Search from './../helpers/Search';
+import mailer from './../helpers/mailer';
 
 /**
  * @class UserController
@@ -64,6 +64,13 @@ class UserController {
               process.env.SECRET_KEY,
               { expiresIn: process.env.AUTH_EXPIRY }
             )
+          });
+
+          await mailer({
+            from: `"Babatunde Adeyemi" <${process.env.GMAIL_USER}>`,
+            to: email,
+            subject: 'Welcome to WorkList',
+            text: 'Hi there! I, Babatunde Adeyemi, welcome you to WorkList!'
           });
         } else {
           response.status(409).json({

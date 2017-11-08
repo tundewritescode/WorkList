@@ -31,8 +31,11 @@ class SignIn extends Component {
 
   /**
    * Handles onChange event on input fields
+   *
    * @param {Object} event - the input field onChange event
+   *
    * @memberof SignUp
+   *
    * @returns {void}
    */
   handleChange(event) {
@@ -41,8 +44,11 @@ class SignIn extends Component {
 
   /**
  * Handles onSubit event on form submission
+ *
  * @param {Object} event - the form onSubmit event
+ *
  * @memberof SignUp
+ *
  * @returns {void}
  */
   handleSubmit(event) {
