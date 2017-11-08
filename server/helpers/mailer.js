@@ -1,12 +1,35 @@
 import transporter from './../config/transporter';
 
 /**
- * Sends emails based on the provided mailOptions
- *
- * @param {Object} mailOptions - email details
- *
- * @returns {Object} - the response object
+ * Mailer
  */
-const mailer = mailOptions => transporter.sendMail(mailOptions);
+class Mailer {
+  /**
+   * Sends welcome email to the email provided
+   *
+   * @param {string} email - email of the receipient
+   *
+   * @returns {Promise} - promise
+   */
+  static sendWelcomeMail(email) {
+    return transporter.sendMail({
+      from: `"Babatunde Adeyemi" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: 'Welcome to WorkList',
+      text: 'Hi there! I, Babatunde Adeyemi, welcome you to WorkList!'
+    });
+  }
 
-export default mailer;
+  /**
+   * Sends a custom email
+   *
+   * @param {Object} mailOptions - email details
+   *
+   * @returns {Promise} - promise
+   */
+  static sendCustomMail(mailOptions) {
+    return transporter.sendMail(mailOptions);
+  }
+}
+
+export default Mailer;

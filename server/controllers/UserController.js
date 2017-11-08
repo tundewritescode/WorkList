@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 import User from './../models/User';
 import Search from './../helpers/Search';
-import mailer from './../helpers/mailer';
+import Mailer from './../helpers/Mailer';
 
 /**
  * @class UserController
@@ -66,12 +66,7 @@ class UserController {
             )
           });
 
-          await mailer({
-            from: `"Babatunde Adeyemi" <${process.env.GMAIL_USER}>`,
-            to: email,
-            subject: 'Welcome to WorkList',
-            text: 'Hi there! I, Babatunde Adeyemi, welcome you to WorkList!'
-          });
+          await Mailer.sendWelcomeMail(email);
         } else {
           response.status(409).json({
             error: `${existingUser.email} already exists`
