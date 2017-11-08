@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import shortid from 'shortid-36';
 
 import User from './../models/User';
 import Search from './../helpers/Search';
@@ -202,6 +203,111 @@ class UserController {
       }
     } catch (error) {
       response.sendStatus(500);
+    }
+  }
+
+  /**
+   * Generates password reset token
+   *
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   */
+  static async generatePasswordToken(request, response) {
+    try {
+      request.checkBody('email', 'Invalid email').isEmail();
+
+      const requestErrors = request.validationErrors();
+
+      if (requestErrors) {
+        response.status(400).json({
+          errors: requestErrors
+        });
+      } else {
+        const { email } = request.body;
+        const existingUser = await Search.searchOne(User, { email });
+
+        if (!existingUser) {
+          response.status(404).json({
+            error: `${email} doens't exist`
+          });
+        } else {
+          const shortId = shortid.generate();
+
+          const resetToken = await jwt.sign(
+            { shortId },
+            process.env.SECRET_KEY,
+            { expiresIn: process.env.RESET_EXPIRY }
+          );
+
+          await User.findByIdAndUpdate(existingUser._id, { shortId });
+
+          await Mailer.sendCustomMail({
+            from: `"Babatunde Adeyemi" <${process.env.GMAIL_USER}>`,
+            to: email,
+            subject: 'Forgot Password',
+            text: `Copy this to your browser: ${process.env.HOSTNAME}/resetpassword/${resetToken}`,
+            html: `Click <a href="http://${process.env.HOSTNAME}/resetpassword/${resetToken}">here</a> to reset your password`,
+          });
+
+          response.status(200).json({
+            message: 'Check your email to continue resetting your password',
+          });
+        }
+      }
+    } catch (error) {
+      response.sendStatus(500);
+    }
+  }
+
+  /**
+   * Saves new password
+   *
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   */
+  static async saveNewPassword(request, response) {
+    try {
+      const { resetToken, newPassword } = request.body;
+
+      if (!resetToken) {
+        response.status(400).json({
+          error: 'Password reset token is required'
+        });
+      } else {
+        const payload = await jwt.verify(resetToken, process.env.SECRET_KEY);
+
+        const existingUser = await Search.searchOne(
+          User,
+          { shortId: payload.shortId }
+        );
+
+        if (existingUser) {
+          await User.findByIdAndUpdate(
+            existingUser._id,
+            { password: newPassword }
+          );
+
+          response.status(200).json({
+            message: 'You have successfully changed your password'
+          });
+        } else {
+          response.status(400).json({
+            error: 'Invalid password reset token'
+          });
+        }
+      }
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        response.status(400).json({
+          error: 'Password reset token has expired',
+        });
+      } else {
+        response.sendStatus(500);
+      }
     }
   }
 }

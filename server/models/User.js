@@ -9,6 +9,7 @@ const userSchema = new Schema({
   avatar: { type: String, default: 'user.png' },
   email: String,
   password: String,
+  shortId: String,
   socialAuth: { type: Boolean, default: false }
 });
 
