@@ -7,7 +7,7 @@
     "dev": "nodemon  server/app --exec babel-node",
     "local": "babel-node  server/app",
     "test": "mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
-    "heroku-prebuild": "webpack -p --config webpack.config.prod.js",
+    "heroku-postbuild": "webpack -p --config webpack.config.prod.js",
     "test:client": "mocha --require babel-register --require client/tests/helpers.js --require client/tests/dom.js --recursive",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls"
