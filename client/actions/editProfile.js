@@ -42,13 +42,10 @@ const editProfile = newUserData => async (dispatch) => {
   try {
     const { data } = await axios.patch('/api/v1/profile/edit', newUserData);
     const { token } = store.getState().user;
-    // console.log(data);
     localStorage.setItem('userData', JSON.stringify({ user: data, token }));
-    // console.log(localStorage.userData);
     dispatch(editProfileSuccess(data));
   } catch (error) {
     dispatch(editProfileFailure(error));
-    console.log('error here', error);
   }
 };
 

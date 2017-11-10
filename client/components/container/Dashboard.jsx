@@ -18,7 +18,7 @@ import getToDos from './../../actions/getToDos';
  */
 class Dashboard extends Component {
   /**
-   *  Initializes
+   *  Initializes the Dashboard class
    */
   constructor() {
     super();
@@ -108,7 +108,7 @@ class Dashboard extends Component {
             </li>
           </ul>
           <Link
-            to=""
+            to="/"
             href="/"
             data-activates="slide-out"
             className="button-collapse"

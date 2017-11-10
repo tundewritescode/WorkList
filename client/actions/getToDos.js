@@ -30,6 +30,11 @@ const getToDosFailure = error => (
   }
 );
 
+/**
+ * Get todos action creattor
+ *
+ * @returns {function} - dispatch function
+ */
 const getToDos = () => async (dispatch) => {
   try {
     const { data } = await axios.get('/api/v1/todos/');

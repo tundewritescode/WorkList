@@ -22,7 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, '../client/assets')));
-app.use(express.static(path.join(__dirname, '../client')));
+// app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join('dist')));
 app.use(fileUpload());
 
 userRoutes('/api/v1', app);
@@ -32,7 +33,7 @@ fileRoutes('/api/v1', app);
 collaboratorRoutes('/api/v1', app);
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const HTML_FILE = path.join(__dirname, 'dist/client/index.html');
+const HTML_FILE = path.join(__dirname, '../dist/index.html');
 
 if (isDevelopment) {
   const compiler = webpack(config);

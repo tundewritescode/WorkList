@@ -60,3 +60,5 @@ typings/
 package-lock.json
 
 server/uploads/
+server/appProd.js
+dist

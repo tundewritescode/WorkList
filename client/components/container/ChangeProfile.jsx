@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import DropZone from 'react-dropzone';
-// import FormData from 'form-data';
 
 import uploadFile from './../../actions/uploadFile';
 import editProfile from './../../actions/editProfile';

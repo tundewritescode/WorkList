@@ -4,6 +4,9 @@ $black: #000;
 $lightGreen: #87c4ae;
 $purple: rgb(137, 55, 154);
 $lighterPurple: rgb(160, 95, 175);
+$red: rgb(252, 183, 183);
+$blue: rgb(170, 170, 253);
+$orange: rgb(255, 249, 164);
 $medium-screen: 1024px !default;
 $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
 
@@ -202,9 +205,6 @@ header {
 .avatar {
   padding: 0 !important;
   margin: 40px 0 10px 20px !important;
-  // img {
-  //   border-radius: 100%;
-  // }
 }
 
 .auth {
@@ -267,4 +267,53 @@ header {
 .todo-info-icon {
   font-size: 16px;
   vertical-align: text-bottom;
+}
+
+.task {
+  box-shadow: 0 1px  2px 1px $nearBlack;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  &:first-child {
+    margin-top: 7px;
+  }
+  &:last-of-type {
+    margin-bottom: 30px;
+  }
+  label {
+    color: $black;
+  }
+  padding: 10px;
+  .collaborator {
+    margin-left: 32px;
+    font-size: 10px;
+    span {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  }
+}
+
+.tasks {
+  .normal {
+    background: $blue;
+  }
+  .critical {
+    background: $red;
+  }
+  .urgent {
+    background: $orange;
+  }
+}
+
+.todDoMeta {
+  span {
+    margin-right: 10px;
+  }
+  a {
+    color: $purple;
+  }
+  .material-icons {
+    vertical-align: middle;
+    font-size: 15px;
+  }
 }
