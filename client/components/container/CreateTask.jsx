@@ -35,7 +35,6 @@ class CreateTask extends Component {
    */
   componentDidMount() {
     $('.modal').modal();
-    $('select').material_select();
   }
 
   /**
@@ -66,7 +65,7 @@ class CreateTask extends Component {
     this.props.createTask({
       ...this.state,
       dueDate: new Date(formDate)
-    }, this.props.toDoId);
+    }, localStorage.toDoId);
     this.setState(this.initialState);
   }
 
@@ -115,7 +114,8 @@ class CreateTask extends Component {
 
                 <div className="input-field col s6">
                   <div className="row">
-                    <select name="priority"
+                    <select
+                      name="priority"
                       className="browser-default"
                       value={this.state.priority}
                       onChange={this.handleChange}
@@ -171,7 +171,6 @@ class CreateTask extends Component {
 
 CreateTask.propTypes = {
   createTask: PropTypes.func.isRequired,
-  toDoId: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = dispatch => (

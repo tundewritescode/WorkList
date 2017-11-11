@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import CreateTask from './../container/CreateTask.jsx';
 import getTasks from './../../actions/getTasks';
 import Task from './../presentational/Task.jsx';
 
@@ -60,36 +59,29 @@ class ToDo extends Component {
       ));
     }
     return [
-      <div key="todo" className="col s12">
-        <ul
-          className="collapsible"
-          data-collapsible="accordion"
-          onFocus={this.handleClick}
-          onMouseOver={this.handleClick}
-        >
-          <li>
-            <div className="collapsible-header">{this.props.title}</div>
-            <div className="collapsible-body">
-              <div className="todDoMeta">
-                <p>Todo by: {this.props.owner}</p>
-                <span>
-                  <Link
-                    to="#create-task"
-                    href="#create-task"
-                    className="modal-trigger"
-                  ><i className="material-icons">create</i>
-                    &nbsp;Create Task
-                  </Link>
-                </span>
-              </div>
-              <div className="tasks">
-                {tasks}
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>,
-      <CreateTask key="createTask" toDoId={this.props.toDoId} />
+      <li
+        onMouseDown={this.handleClick}
+        onClick={this.handleClick}
+      >
+        <div className="collapsible-header">{this.props.title}</div>
+        <div className="collapsible-body">
+          <div className="todDoMeta">
+            <p>Todo by: {this.props.owner}</p>
+            <span>
+              <Link
+                to="#create-task"
+                href="#create-task"
+                className="modal-trigger"
+              ><i className="material-icons">create</i>
+                &nbsp;Create Task
+              </Link>
+            </span>
+          </div>
+          <div className="tasks">
+            {tasks}
+          </div>
+        </div>
+      </li>,
     ];
   }
 }

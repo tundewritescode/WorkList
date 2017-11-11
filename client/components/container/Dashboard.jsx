@@ -9,6 +9,7 @@ import Brand from './../presentational/Brand.jsx';
 import ToDo from './../presentational/ToDo.jsx';
 import Profile from './../container/Profile.jsx';
 import ChangeProfile from './../container/ChangeProfile.jsx';
+import CreateTask from './CreateTask.jsx';
 
 import createToDo from './../../actions/createToDo';
 import getToDos from './../../actions/getToDos';
@@ -143,14 +144,19 @@ class Dashboard extends Component {
           <div className="row">
             <div className="container">
               <div className="todos">
-                {
-                  toDos
-                }
+                <div className="col s12">
+                  <ul className="collapsible" data-collapsible="accordion">
+                    {
+                      toDos
+                    }
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <ChangeProfile key="edit-profile" />
+        <CreateTask key="create-task" />
       </section>
     );
   }
