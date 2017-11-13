@@ -41,7 +41,7 @@ const createTaskFailure = error => (
 const createTask = (task, toDoId) => async (dispatch) => {
   try {
     const { data } = await axios
-      .post(`/api/v1/todos/${toDoId}/tasks/create`, task);
+      .post(`/api/v1/todos/${toDoId}/tasks`, task);
     dispatch(createTaskSuccess(data.task));
     $('#create-task').modal('close');
   } catch (error) {

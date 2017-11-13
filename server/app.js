@@ -21,8 +21,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-// app.use(express.static(path.join(__dirname, '../client/assets')));
-// app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join(__dirname, '../client/assets')));
 app.use(express.static(path.join('dist')));
 app.use(fileUpload());
 
@@ -49,6 +48,8 @@ if (isDevelopment) {
     res.sendFile(path.join(__dirname, './../client/index.html'));
   });
 } else {
+  app.use(express.static(path.join(__dirname, '../client')));
+
   app.get('*', (request, response) => response.sendFile(HTML_FILE));
 }
 

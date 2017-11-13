@@ -41,7 +41,7 @@ const getTasksFailure = error => (
 const getTasks = toDoId => async (dispatch) => {
   try {
     const { data } = await axios.get(`/api/v1/todos/${toDoId}/tasks`);
-    localStorage.setItem('toDoId', toDoId);
+    await localStorage.setItem('toDoId', toDoId);
     dispatch(getTasksSuccess(data.tasks));
   } catch (error) {
     dispatch(getTasksFailure(error));

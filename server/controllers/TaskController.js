@@ -92,6 +92,43 @@ class TaskController {
       });
     }
   }
+
+  /**
+   * Edits tasks
+   *
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   */
+  static async updateTask(request, response) {
+    request.checkBody('completed', 'Completed can only be true or false')
+      .isBoolean();
+
+    const requestErrors = request.validationErrors();
+
+    if (requestErrors) {
+      response.status(400).json({
+        errors: requestErrors
+      });
+    } else {
+      const updatedTask = await Task
+        .findByIdAndUpdate(request.params.taskId, request.body);
+
+      const newTask = await Task.findById(updatedTask._id);
+      // Don't forget assign
+      const task = {
+        taskId: newTask._id,
+        toDoId: newTask.toDoId,
+        title: newTask.title,
+        priority: newTask.priority,
+        completed: newTask.completed,
+        dueDate: newTask.dueDate
+      };
+
+      response.status(200).json(task);
+    }
+  }
 }
 
 export default TaskController;
