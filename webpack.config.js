@@ -37,8 +37,7 @@ const config = [{
                   browsers: ['last 2 versions']
                 }
               }]
-            ],
-            plugins: ['transform-object-rest-spread']
+            ]
           }
         },
         exclude: /node_modules/,

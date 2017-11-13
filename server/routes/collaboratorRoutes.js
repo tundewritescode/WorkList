@@ -11,7 +11,7 @@ const collaboratorRoutes = (versionURL, app) => {
     CollaboratorController.getCollaborators
   );
   app.post(
-    `${versionURL}/todos/:toDoId/collaborators/add`,
+    `${versionURL}/todos/:toDoId/collaborators/`,
     verifyToken,
     authorizeUser,
     CollaboratorController.addCollaborators

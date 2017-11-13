@@ -5,7 +5,7 @@ import verifyToken from './../middleware/verifyToken';
 const toDoRoutes = (versionURL, app) => {
   app.get(`${versionURL}/todos`, verifyToken, ToDoController.getToDos);
   app.post(
-    `${versionURL}/todos/create`,
+    `${versionURL}/todos`,
     verifyToken,
     ToDoController.createToDo
   );

@@ -39,7 +39,7 @@ const createToDoFailure = error => (
  */
 const createToDo = toDo => async (dispatch) => {
   try {
-    const { data } = await axios.post('/api/v1/todos/create', toDo);
+    const { data } = await axios.post('/api/v1/todos', toDo);
     dispatch(createToDoSuccess(data.toDo));
   } catch (error) {
     dispatch(createToDoFailure(error));

@@ -27,7 +27,6 @@ class CollaboratorController {
     const refinedCollaborators = collaborators.map(collaborator => ({
       toDoId: collaborator.toDoId,
       collaborator: collaborator.collaboratorId,
-      readOnly: collaborator.readOnly,
     }));
 
     response.status(200).json({
@@ -49,7 +48,6 @@ class CollaboratorController {
    */
   static async addCollaborators(request, response) {
     request.checkBody('email', 'Invalid email').isEmail();
-    request.checkBody('readOnly', 'Permission must be a boolean').isBoolean();
 
     const requestErrors = request.validationErrors();
 
@@ -90,7 +88,6 @@ class CollaboratorController {
           const refinedCollaborator = {
             toDoId: collaborator.toDoId,
             collaboratorId: collaborator.collaboratorId,
-            readOnly: collaborator.readOnly,
           };
 
           response.status(201).json({

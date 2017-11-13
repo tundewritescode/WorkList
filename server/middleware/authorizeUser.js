@@ -15,7 +15,7 @@ const authorizeUser = async (request, response, next) => {
 
     if (toDo) {
       if (String(toDo.ownerId) !== String(request.user._id)) {
-        response.status(401).json({
+        response.status(403).json({
           error: 'You are not authorized'
         });
       } else {
