@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import Dotenv from 'dotenv-webpack';
 
 const config = [{
   entry: [
@@ -12,6 +13,7 @@ const config = [{
     filename: 'bundle.min.js',
   },
   plugins: [
+    new Dotenv({ systemvars: true }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -37,8 +39,7 @@ const config = [{
                   browsers: ['last 2 versions']
                 }
               }]
-            ],
-            plugins: ['transform-object-rest-spread']
+            ]
           }
         },
         exclude: /node_modules/,

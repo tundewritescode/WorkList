@@ -25,10 +25,9 @@ const setUserSuccess = user => (
  *
  * @returns {Object} - action type and payload
  */
-const setUserFailure = error => (
+const setUserFailure = () => (
   {
     type: Auth.SET_USER_FAILURE,
-    error
   }
 );
 
@@ -58,7 +57,7 @@ const setUser = (credentials, method, location = '/dashboard') => async (dispatc
       history.push('/');
     }
   } catch (error) {
-    dispatch(setUserFailure(error));
+    dispatch(setUserFailure());
   }
 };
 

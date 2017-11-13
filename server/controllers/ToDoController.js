@@ -48,7 +48,7 @@ class ToDoController {
    */
   static async createToDo(request, response) {
     try {
-      request.checkBody('title', 'Tiltle is required').notEmpty().trim();
+      request.checkBody('title', 'Title is required').notEmpty().trim();
 
       const requestErrors = request.validationErrors();
 

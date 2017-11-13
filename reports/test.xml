@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="3">
+
+  <testsuite name="test"
+    errors="0" failures="0" hostname="" id="" package="test" skipped="3"
+    tests="3" time="0.000" timestamp="Fri, 17 Nov 2017 02:12:00 GMT">
+  
+
+  
+
+  
+    
+    <testcase
+      name="" classname="test">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="User sees a logout button when he signs in successfully and able to signout" classname="test">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="User should be see the message they posted to a group immediately after posting it" classname="test">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>
