@@ -23,10 +23,9 @@ const getToDosSuccess = toDos => (
  *
  * @returns {Object} - action type and payload
  */
-const getToDosFailure = error => (
+const getToDosFailure = () => (
   {
     type: ToDo.GET_TODOS_SUCCESS,
-    error,
   }
 );
 
@@ -40,7 +39,8 @@ const getToDos = () => async (dispatch) => {
     const { data } = await axios.get('/api/v1/todos/');
     dispatch(getToDosSuccess(data.toDos));
   } catch (error) {
-    dispatch(getToDosFailure(error));
+    localStorage.clear();
+    dispatch(getToDosFailure());
   }
 };
 

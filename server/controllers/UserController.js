@@ -4,7 +4,7 @@ import shortid from 'shortid-36';
 
 import User from './../models/User';
 import Search from './../helpers/Search';
-import Mailer from './../helpers/Mailer';
+import Mailer from '../helpers/Mailer';
 
 /**
  * @class UserController
@@ -27,13 +27,10 @@ class UserController {
       request.checkBody('firstName', 'Invalid first name').isAlpha();
       request.checkBody('lastName', 'Invalid last name').isAlpha();
       request.checkBody('email', 'Invalid email').isEmail();
-
-      if (!request.body.socialAuth) {
-        request.checkBody('password', 'Paswword must be at least 8 characters')
-          .isLength({ min: 8 });
-        request.checkBody('password', 'Paswword must contain at least one number')
-          .matches(/\d/);
-      }
+      request.checkBody('password', 'Paswword must be at least 8 characters')
+        .isLength({ min: 8 });
+      request.checkBody('password', 'Paswword must contain at least one number')
+        .matches(/\d/);
 
       const requestErrors = request.validationErrors();
 
@@ -44,6 +41,7 @@ class UserController {
       } else {
         const { email } = request.body;
         const existingUser = await Search.searchOne(User, { email });
+
         if (!existingUser) {
           const {
             _id,
@@ -66,13 +64,71 @@ class UserController {
               { expiresIn: process.env.AUTH_EXPIRY }
             )
           });
-
-          await Mailer.sendWelcomeMail(email);
         } else {
           response.status(409).json({
             error: `${existingUser.email} already exists`
           });
         }
+      }
+    } catch (error) {
+      response.sendStatus(500);
+    }
+  }
+
+  /**
+   * Logs user in with Google
+   *
+   * @static
+   *
+   * @param {Object} request - request object
+   * @param {Object} response - response object
+   *
+   * @memberof UserController
+   *
+   * @returns {void}
+   */
+  static async socialLogin(request, response) {
+    try {
+      const { email } = request.body;
+      const existingUser = await Search.searchOne(User, { email });
+
+      if (!existingUser) {
+        const {
+          _id,
+          firstName,
+          lastName,
+          avatar,
+        } = await User(request.body).save();
+
+        response.status(201).json({
+          user: {
+            userId: _id,
+            firstName,
+            lastName,
+            email,
+            avatar,
+          },
+          token: await jwt.sign(
+            { userId: _id, email },
+            process.env.SECRET_KEY,
+            { expiresIn: process.env.AUTH_EXPIRY }
+          )
+        });
+      } else {
+        response.status(200).json({
+          user: {
+            userId: existingUser._id,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName,
+            email,
+            avatar: existingUser.avatar,
+          },
+          token: await jwt.sign(
+            { userId: existingUser._id, email },
+            process.env.SECRET_KEY,
+            { expiresIn: process.env.AUTH_EXPIRY }
+          )
+        });
       }
     } catch (error) {
       response.sendStatus(500);
@@ -94,10 +150,7 @@ class UserController {
   static async signIn(request, response) {
     try {
       request.checkBody('email', 'Email is required').isEmail();
-
-      if (!request.body.socialAuth) {
-        request.checkBody('password', 'Password is required').notEmpty();
-      }
+      request.checkBody('password', 'Password is required').notEmpty();
 
       const requestErrors = request.validationErrors();
 
@@ -110,22 +163,18 @@ class UserController {
         const existingUser = await Search.searchOne(User, { email });
 
         if (existingUser) {
-          let passwordMatches;
-          if (!request.body.socialAuth) {
-            passwordMatches = await bcrypt.compare(
-              request.body.password,
-              existingUser.password
-            );
-          }
+          const passwordMatches = await bcrypt.compare(
+            request.body.password,
+            existingUser.password
+          );
 
-          if (passwordMatches || existingUser.socialAuth) {
-            const {
-              _id,
-              firstName,
-              lastName,
-              avatar,
-            } = existingUser;
-
+          const {
+            _id,
+            firstName,
+            lastName,
+            avatar,
+          } = existingUser;
+          if (passwordMatches) {
             response.status(200).json({
               user: {
                 userId: _id,
@@ -288,7 +337,8 @@ class UserController {
         if (existingUser) {
           await User.findByIdAndUpdate(
             existingUser._id,
-            { password: newPassword }
+            { password: newPassword },
+            { new: true },
           );
 
           response.status(200).json({

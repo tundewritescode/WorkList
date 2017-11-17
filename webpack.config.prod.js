@@ -1,9 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     path.join(__dirname, '/client/index.jsx'),
   ],
   output: {
@@ -19,14 +21,14 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
+              'stage-3',
               'react',
               ['env', {
                 targets: {
-                  browsers: ['last 2 versions']
-                }
+                  browsers: 'last 2 versions',
+                },
               }]
-            ],
-            plugins: ['transform-object-rest-spread']
+            ]
           }
         },
         exclude: /node_modules/,
@@ -44,6 +46,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new Dotenv({ systemvars: true }),
     new HtmlWebpackPlugin({
       template: './client/index.html',
       filename: 'index.html',
@@ -51,10 +54,21 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
+        NODE_ENV: JSON.stringify('production'),
+        CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
+        CLOUD_NAME: JSON.stringify(process.env.CLOUD_NAME)
       }
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+<<<<<<< HEAD
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
+=======
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+>>>>>>> 281b9165405f50ce4095a4c0cf9cad4dd0066171
   ],
 };

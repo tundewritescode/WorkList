@@ -10,7 +10,7 @@ describe('Task Model', () => {
     await Task.remove({});
   });
 
-  it('should return a new todo data', async () => {
+  it('should return a new task data', async () => {
     const newTask = await Task(tasks[0]).save();
 
     expect(newTask).to.be.an('object');

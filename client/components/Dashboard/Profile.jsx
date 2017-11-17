@@ -17,7 +17,7 @@ class Profile extends Component {
     return [
       <Image
         key="profile"
-        cloudName="duc7lbtnq"
+        cloudName={process.env.CLOUD_NAME}
         publicId={this.props.avatar}
         width="140"
         height="140"

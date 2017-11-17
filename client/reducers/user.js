@@ -8,7 +8,6 @@ const initialState = {
   email: '',
   avatar: '',
   token: '',
-  error: '',
 };
 
 /**
@@ -42,11 +41,6 @@ export default (state = initialState, action) => {
         ...state,
         firstName: action.user.user.firstName,
         lastName: action.user.user.lastName,
-      };
-    case Auth.SET_USER_FAILURE:
-      return {
-        ...state,
-        error: action.error.response.data.error,
       };
     default:
       return state;

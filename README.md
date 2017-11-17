@@ -66,6 +66,7 @@ Contributors are welcome to further enhance the features of this API by contribu
 4. Push to the branch: git push origin my-new-feature
 5. Submit a pull request describing the feature(s) you have added
 6. Include a feature.md readme file with a detailed description of the feature(s) you have added, along with clear instructions of how to use the features(s) you have added. This readme file will be reviewed and included in the original readme if feature is approved.
+7. Adhere strictly to the conventions in the [Wiki](https://github.com/tundewritescode/WorkList/wiki).
 
 ## Tests
 After you have done `npm install`, you can then run the tests.

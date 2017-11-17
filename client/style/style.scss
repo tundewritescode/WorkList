@@ -106,6 +106,7 @@ header {
 .expose {
   padding: 70px 0;
   background: $white;
+
   h5 {
     text-align: center;
   }
@@ -122,6 +123,7 @@ header {
     border-radius: 10px;
     box-shadow: 0 3px 20px $nearBlack;
     font-family: 'Montserrat Alternates', sans-serif;
+
     &:hover {
       box-shadow: 0 10px 40px $nearBlack;
     }
@@ -135,10 +137,12 @@ header {
   background-repeat: no-repeat;
   text-align: center;
   color: $white;
+
   h5 {
     text-decoration: underline;
     text-decoration-color: $purple;
   }
+
   a {
     color: $purple;
     text-decoration: underline;
@@ -161,6 +165,7 @@ header {
 .dashboard, .auth {
   font-family: 'Montserrat Alternates', sans-serif;
   color: $black;
+
   nav {
     background: $lighterPurple;
   }
@@ -172,10 +177,15 @@ header {
 
 .dashboard {
   .content {
+    @media #{$medium-and-down} {
+      margin-left: 0;
+    }
+
     margin-left: 180px;
     background: #F4F8F9;
     padding-top: 40px;
     height: 90vh;
+
     .container-fluid {
       width: 90%;    
     }
@@ -188,7 +198,8 @@ header {
 .side-nav {
   margin-top: 64px;
   width: 180px;
-  background: $white;  
+  background: $white;
+  
   .name {
     margin-top: -12px !important;
     text-align: center;
@@ -197,6 +208,7 @@ header {
   }
 
   color: black;
+
   a {
     color: $purple;
   }
@@ -222,6 +234,7 @@ header {
         border-bottom: 1px solid $purple !important;
       }
     }
+  
     .active {
       color: $purple !important;
     }
@@ -247,10 +260,12 @@ header {
   a {
     color: $black;
   }
+
   .card-action {
     border-bottom-left-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
   }
+
   .card-action a {
     color: $purple !important;
   }
@@ -259,6 +274,7 @@ header {
 .todo-info {
   font-size: 11px;
   padding-bottom: 10px;
+
   &:last-child {
     padding-bottom: 0;
   }
@@ -273,45 +289,56 @@ header {
   box-shadow: 0 1px  2px 1px $nearBlack;
   border-radius: 2px;
   margin-bottom: 10px;
+
   &:first-child {
     margin-top: 7px;
   }
+
   &:last-of-type {
     margin-bottom: 30px;
   }
+
   label {
     color: $black;
   }
+
   padding: 10px;
+
   .collaborator {
     margin-left: 32px;
     font-size: 10px;
     span {
-      margin-right: 10px;
       font-weight: bold;
+      margin-right: 10px;
     }
   }
 }
 
 .tasks {
+
   .normal {
     background: $blue;
   }
+
   .critical {
     background: $red;
   }
+
   .urgent {
     background: $orange;
   }
 }
 
-.todDoMeta {
+.todo-meta {
+
   span {
     margin-right: 10px;
   }
+
   a {
     color: $purple;
   }
+
   .material-icons {
     vertical-align: middle;
     font-size: 15px;

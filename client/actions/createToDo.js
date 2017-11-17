@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { ToDo } from './types';
 
@@ -23,10 +24,9 @@ const createToDoSuccess = toDo => (
  *
  * @returns {Object} - action type and payload
  */
-const createToDoFailure = error => (
+const createToDoFailure = () => (
   {
     type: ToDo.CREATE_TODO_FAILURE,
-    error,
   }
 );
 
@@ -43,6 +43,7 @@ const createToDo = toDo => async (dispatch) => {
     dispatch(createToDoSuccess(data.toDo));
   } catch (error) {
     dispatch(createToDoFailure(error));
+    toastr.error(error.response.data.error);
   }
 };
 

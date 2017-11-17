@@ -80,7 +80,7 @@ class ToDo extends Component {
         />
       ));
     }
-    return [
+    return (
       <li>
         <div
           onClick={this.handleClick}
@@ -89,8 +89,17 @@ class ToDo extends Component {
         >{this.props.title}
         </div>
         <div className="collapsible-body">
-          <div className="todDoMeta">
+          <div className="todo-meta">
             <p>Todo by: {this.props.owner}</p>
+            <span>
+              <Link
+                to="#add-collaborator"
+                href="#add-collaborator"
+                className="modal-trigger"
+              ><i className="material-icons">person_add</i>
+                &nbsp;Add collaborator
+              </Link>
+            </span>
             <span>
               <Link
                 to="#create-task"
@@ -105,8 +114,8 @@ class ToDo extends Component {
             {tasks}
           </div>
         </div>
-      </li>,
-    ];
+      </li>
+    );
   }
 }
 
