@@ -12,7 +12,8 @@
     "window": true,
     "localStorage": true,
     "$": true,
-    "FormData": true
+    "FormData": true,
+    "jest": true
   },
   "rules": {
     "import/extensions": 0,

@@ -25,10 +25,9 @@ const setUserSuccess = user => (
  *
  * @returns {Object} - action type and payload
  */
-const setUserFailure = error => (
+const setUserFailure = () => (
   {
     type: Auth.SET_USER_FAILURE,
-    error
   }
 );
 
@@ -41,25 +40,27 @@ const setUserFailure = error => (
  *
  * @returns {function} - dispatch function
  */
-const setUser = (credentials, method, location = '/dashboard') => async (dispatch) => {
-  try {
-    if (credentials && method) {
-      const { data } = await axios.post(`/api/v1/users/${method}`, credentials);
-      localStorage.setItem('userData', JSON.stringify(data));
-      setAuthToken(data.token);
-      dispatch(setUserSuccess(data));
-      history.push(location);
-    } else if (localStorage.userData) {
-      const userData = JSON.parse(localStorage.userData);
-      setAuthToken(userData.token);
-      dispatch(setUserSuccess(userData));
-      history.push('/dashboard');
-    } else {
-      history.push('/');
+const setUser = (credentials, method, location = '/dashboard') =>
+  async (dispatch) => {
+    try {
+      if (credentials && method) {
+        const { data } =
+          await axios.post(`/api/v1/users/${method}`, credentials);
+        localStorage.setItem('userData', JSON.stringify(data));
+        setAuthToken(data.token);
+        dispatch(setUserSuccess(data));
+        history.push(location);
+      } else if (localStorage.userData) {
+        const userData = JSON.parse(localStorage.userData);
+        setAuthToken(userData.token);
+        dispatch(setUserSuccess(userData));
+        history.push('/dashboard');
+      } else {
+        history.push('/');
+      }
+    } catch (error) {
+      dispatch(setUserFailure());
     }
-  } catch (error) {
-    dispatch(setUserFailure(error));
-  }
-};
+  };
 
 export default setUser;

@@ -80,7 +80,7 @@ class ToDo extends Component {
         />
       ));
     }
-    return [
+    return (
       <li>
         <div
           onClick={this.handleClick}
@@ -89,7 +89,7 @@ class ToDo extends Component {
         >{this.props.title}
         </div>
         <div className="collapsible-body">
-          <div className="todDoMeta">
+          <div className="todo-meta">
             <p>Todo by: {this.props.owner}</p>
             <span>
               <Link
@@ -105,8 +105,8 @@ class ToDo extends Component {
             {tasks}
           </div>
         </div>
-      </li>,
-    ];
+      </li>
+    );
   }
 }
 

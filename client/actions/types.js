@@ -1,6 +1,7 @@
 export const Auth = {
   SET_USER_SUCCESS: 'SET_USER_SUCCESS',
   SET_USER_FAILURE: 'SET_USER_FAILURE',
+  SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS',
 };
 
 export const ToDo = {

@@ -1,9 +1,11 @@
 import path from 'path';
 import webpack from 'webpack';
+import Dotenv from 'dotenv-webpack';
 
 const config = [{
   entry: [
     'webpack-hot-middleware/client',
+    'babel-polyfill',
     path.join(__dirname, '/client/index.jsx'),
   ],
   output: {
@@ -12,6 +14,7 @@ const config = [{
     filename: 'bundle.min.js',
   },
   plugins: [
+    new Dotenv({ systemvars: true }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),

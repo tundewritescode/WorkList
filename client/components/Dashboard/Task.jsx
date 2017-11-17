@@ -10,7 +10,11 @@ import updateTask from './../../actions/updateTask';
  */
 class Task extends Component {
   /**
-   * Instantials the task class
+   * Instanstiates the task component
+   *
+   * @param {Object} props - component properties
+   *
+   * @returns {void}
    */
   constructor(props) {
     super(props);
@@ -57,7 +61,11 @@ class Task extends Component {
           checked={this.props.completed}
           onChange={this.handleCheck}
         />
-        <label className={String(this.state.completed)} htmlFor={this.props.taskId}>{this.props.title}</label>
+        <label
+          className={String(this.state.completed)}
+          htmlFor={this.props.taskId}
+          >{this.props.title}
+        </label>
         <div className="collaborator">
           <span>Assigned to: {this.props.assignedTo}</span>
           <span>Priority: {this.props.priority}</span>

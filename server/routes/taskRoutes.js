@@ -4,6 +4,14 @@ import verifyToken from './../middleware/verifyToken';
 import authorizeUser from './../middleware/authorizeUser';
 import verifyTask from './../middleware/verifyTask';
 
+/**
+ * Task routes
+ *
+ * @param {string} versionURL - api versioning
+ * @param {function} app - express
+ *
+ * @returns {void}
+ */
 const taskRoutes = (versionURL, app) => {
   app.get(
     `${versionURL}/todos/:toDoId/tasks`,

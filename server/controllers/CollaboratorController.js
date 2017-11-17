@@ -22,7 +22,8 @@ class CollaboratorController {
   static async getCollaborators(request, response) {
     const { toDoId } = request.params;
 
-    const collaborators = await Search.searchAll(Collaborator, { toDoId });
+    const collaborators = await Collaborator.find({ toDoId })
+      .populate('toDoId', 'title');
 
     const refinedCollaborators = collaborators.map(collaborator => ({
       toDoId: collaborator.toDoId,
@@ -82,16 +83,11 @@ class CollaboratorController {
             error: 'Collaborator is already added',
           });
         } else {
-          const collaborator = await Collaborator({ toDoId, collaboratorId })
+          await Collaborator({ toDoId, collaboratorId })
             .save();
 
-          const refinedCollaborator = {
-            toDoId: collaborator.toDoId,
-            collaboratorId: collaborator.collaboratorId,
-          };
-
-          response.status(201).json({
-            collaborator: refinedCollaborator,
+          response.status(200).json({
+            message: 'Collaborator added'
           });
         }
       }

@@ -42,7 +42,10 @@ const uploadFile = file => async (dispatch) => {
   try {
     const { data } = await axios.patch('/api/v1/avatar/upload', file);
     const { token } = store.getState().user;
-    localStorage.setItem('userData', JSON.stringify({ user: data.user, token }));
+    localStorage.setItem(
+      'userData',
+      JSON.stringify({ user: data.user, token })
+    );
     dispatch(uploadFileSuccesss(data));
     $('#edit-profile').modal('close');
   } catch (error) {

@@ -51,7 +51,6 @@ class UserController {
             lastName,
             avatar,
           } = await User(request.body).save();
-
           response.status(201).json({
             user: {
               userId: _id,

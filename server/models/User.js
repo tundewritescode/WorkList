@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs';
 
 const { Schema } = mongoose;
 
+/**
+ * User Schema
+ */
 const userSchema = new Schema({
   firstName: String,
   lastName: String,

@@ -30,6 +30,15 @@ class SignIn extends Component {
   }
 
   /**
+   * Closes the sidenav on mobile
+   *
+   * @returns {void}
+   */
+  componentDidMount() {
+    $('.button-collapse').sideNav('hide');
+  }
+
+  /**
    * Handles onChange event on input fields
    *
    * @param {Object} event - the input field onChange event

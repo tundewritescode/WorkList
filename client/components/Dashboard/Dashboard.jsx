@@ -108,6 +108,9 @@ class Dashboard extends Component {
                 <Profile />
               </div>
             </li>
+            <li>
+              <SignOut signOut={this.props.signOut} />
+            </li>
           </ul>
           <Link
             to="/"
@@ -122,7 +125,7 @@ class Dashboard extends Component {
         <div className="content">
           <div className="row">
             <div className="container-">
-              <div className="col l6 offset-l3">
+              <div className="col l6 offset-l3 s12">
                 <div className="row">
                   <form className="col s12" onSubmit={this.handleSubmit}>
                     <div className="input-field col s12">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -7,11 +7,19 @@ import PropTypes from 'prop-types';
  * @param {Object} props
  * @returns {Object} - Nav component
  */
-const Nav = props => (
-  <nav>
-    {props.children}
-  </nav>
-);
+class Nav extends Component {
+  componentDidMount() {
+    $(".button-collapse").sideNav();
+  }
+
+  render() {
+    return (
+      <nav>
+        {this.props.children}
+      </nav>
+    )
+  };
+}
 
 Nav.propTypes = {
   children: PropTypes.node.isRequired

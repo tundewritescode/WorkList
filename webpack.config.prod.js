@@ -1,9 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     path.join(__dirname, '/client/index.jsx'),
   ],
   output: {
@@ -19,11 +21,14 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
+              'stage-3',
               'react',
               ['env', {
                 targets: {
-                  browsers: ['last 2 versions']
-                }
+                  uglify: true,
+                  browsers: ['Chrome >= 62'],
+                },
+                useBuiltIns: true
               }]
             ],
             plugins: ['transform-object-rest-spread']
@@ -44,6 +49,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new Dotenv({ systemvars: true }),
     new HtmlWebpackPlugin({
       template: './client/index.html',
       filename: 'index.html',
@@ -54,7 +60,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
 };

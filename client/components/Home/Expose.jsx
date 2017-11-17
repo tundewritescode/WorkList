@@ -19,7 +19,8 @@ const Expose = () => (
               </div>
               <div className="card-content">
                 <p>
-                  Register a new account. It takes only seconds, and of course, it&apos;s free!
+                  Register a new account. It takes only
+                  seconds, and of course, it&apos;s free!
                 </p>
               </div>
             </div>
@@ -55,7 +56,8 @@ const Expose = () => (
               </div>
               <div className="card-content">
                 <p>
-                  Collaborate with other users by adding them as collaborators to your to-dos.
+                  Collaborate with other users by
+                  adding them as collaborators to your to-dos.
                 </p>
               </div>
             </div>
