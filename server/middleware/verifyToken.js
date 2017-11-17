@@ -23,7 +23,6 @@ const verifyToken = async (request, response, next) => {
 
       if (user) {
         request.user = user;
-
         next();
       } else {
         response.status(400).json({

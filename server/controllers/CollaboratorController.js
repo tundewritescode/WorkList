@@ -1,39 +1,12 @@
 import User from './../models/User';
-import Collaborator from './../models/Collaborator';
-
+import ToDo from './../models/ToDo';
+import Mailer from '../helpers/Mailer';
 import Search from './../helpers/Search';
 
 /**
  * @class CollaboratorController
  */
 class CollaboratorController {
-  /**
-   * Gets all collaborators on a to-do
-   *
-   * @static
-   *
-   * @param {Object} request - request object
-   * @param {Object} response - response object
-   *
-   * @memberof CollaboratorController
-   *
-   * @returns {void}
-   */
-  static async getCollaborators(request, response) {
-    const { toDoId } = request.params;
-
-    const collaborators = await Search.searchAll(Collaborator, { toDoId });
-
-    const refinedCollaborators = collaborators.map(collaborator => ({
-      toDoId: collaborator.toDoId,
-      collaborator: collaborator.collaboratorId,
-    }));
-
-    response.status(200).json({
-      collaborators: refinedCollaborators,
-    });
-  }
-
   /**
    * Add collaborators to a to-do
    *
@@ -47,7 +20,7 @@ class CollaboratorController {
    * @returns {void}
    */
   static async addCollaborators(request, response) {
-    request.checkBody('email', 'Invalid email').isEmail();
+    request.checkBody('collaborator', 'Invalid email').isEmail();
 
     const requestErrors = request.validationErrors();
 
@@ -56,11 +29,10 @@ class CollaboratorController {
         errors: requestErrors,
       });
     } else {
-      request.sanitizeBody('email').escape();
+      request.sanitizeBody('collaborator').escape();
 
-      const { toDoId } = request.params;
-      const { email } = request.body;
-      const existingUser = await Search.searchOne(User, { email });
+      const { collaborator } = request.body;
+      const existingUser = await Search.searchOne(User, { email: collaborator });
 
       if (!existingUser) {
         response.status(400).json({
@@ -69,29 +41,32 @@ class CollaboratorController {
       } else {
         const collaboratorId = existingUser._id;
 
-        const existingCollaborator = await Search.searchOne(
-          Collaborator,
-          {
-            collaboratorId,
-            toDoId
-          }
-        );
+        const { currentToDo } = request;
+
+        const existingCollaborator =
+          currentToDo.collaborators.find(newCollaborator => (
+            String(newCollaborator) === String(collaboratorId)
+          ));
 
         if (existingCollaborator) {
+          await Mailer.sendCustomMail({
+            from: `"Babatunde Adeyemi" <${process.env.GMAIL_USER}>`,
+            to: collaborator,
+            subject: 'New Todo!',
+            text: 'Hi there! You are now a collaborator on a new todo'
+          });
+
           response.status(409).json({
             error: 'Collaborator is already added',
           });
         } else {
-          const collaborator = await Collaborator({ toDoId, collaboratorId })
-            .save();
+          await ToDo.update(
+            { _id: currentToDo._id },
+            { $push: { collaborators: collaboratorId } }
+          );
 
-          const refinedCollaborator = {
-            toDoId: collaborator.toDoId,
-            collaboratorId: collaborator.collaboratorId,
-          };
-
-          response.status(201).json({
-            collaborator: refinedCollaborator,
+          response.status(200).json({
+            message: 'Collaborator added'
           });
         }
       }

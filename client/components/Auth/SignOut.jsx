@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 /**
  * Signs user out
@@ -10,7 +9,7 @@ import { Link } from 'react-router-dom';
  * @returns {Object} - the SignOUt component
  */
 const SignOut = props => (
-  <Link to="/" href="/" onClick={props.signOut}>Sign out</Link>
+  <a href="/" onClick={props.signOut}>Sign out</a>
 );
 
 SignOut.propTypes = {

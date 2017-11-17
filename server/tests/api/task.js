@@ -1,5 +1,6 @@
 import chai from 'chai';
 import request from 'supertest';
+import storage from 'node-persist';
 
 import User from './../../models/User';
 import ToDo from './../../models/ToDo';
@@ -16,33 +17,50 @@ describe('Task Controller', async () => {
     await User.remove({});
     await ToDo.remove({});
     await Task.remove({});
+
+    const newUser = await request(app)
+      .post('/api/v1/users/signup')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send(users[0]);
+
+    await request(app)
+      .post('/api/v1/users/signup')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send(users[1]);
+
+    const { token } = newUser.body;
+
+    const toDo = await request(app)
+      .post('/api/v1/todos')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('token', token)
+      .send(toDos[0]);
+
+    const { toDoId } = toDo.body.toDo;
+
+    storage.initSync();
+    storage.setItemSync('token', token);
+    storage.setItemSync('toDoId', toDoId);
   });
 
   describe('When a user creates a task', () => {
-    it('should return a new task details', async () => {
-      const newUser = await request(app)
-        .post('/api/v1/users/signup')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .send(users[0]);
-
-      const { token } = newUser.body;
-
-      const toDo = await request(app)
-        .post('/api/v1/todos')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(toDos[0])
-        .expect(201);
-
-      const { toDoId } = toDo.body.toDo;
-
+    it('should return a new task object', async () => {
+      await request(app)
+        .post(`/api/v1/todos/${storage.getItemSync('toDoId')}/collaborators`)
+        .set('token', storage.getItemSync('token'))
+        .send({ collaborator: users[1].email });
 
       const response = await request(app)
-        .post(`/api/v1/todos/${toDoId}/tasks`)
+        .post(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks`)
         .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(tasks[0])
+        .set('token', storage.getItemSync('token'))
+        .send({
+          ...tasks[0],
+          assignedTo: users[1].email
+        })
         .expect(201);
+
+      storage.setItemSync('taskId', response.body.task.taskId);
 
       expect(response.body).to.be.an('object');
       expect(response.body.task).to.have.a.property('taskId');
@@ -53,32 +71,17 @@ describe('Task Controller', async () => {
   });
 
   describe('When a user requests for tasks', () => {
-    it('should return a list of tasks', async () => {
-      const user = await request(app)
-        .post('/api/v1/users/signin')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .send({ email: users[0].email, password: users[0].password });
-
-      const { token } = user.body;
-
-      const toDo = await request(app)
-        .post('/api/v1/todos')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(toDos[0]);
-
-      const { toDoId } = toDo.body.toDo;
-
+    it('should return an array of tasks', async () => {
       await request(app)
-        .post(`/api/v1/todos/${toDoId}/tasks`)
+        .post(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks`)
         .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
+        .set('token', storage.getItemSync('token'))
         .send(tasks[0]);
 
       const response = await request(app)
-        .get(`/api/v1/todos/${toDoId}/tasks`)
+        .get(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks`)
         .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
+        .set('token', storage.getItemSync('token'))
         .expect(200);
 
       expect(response.body.tasks).to.be.an('array');
@@ -88,107 +91,90 @@ describe('Task Controller', async () => {
     });
   });
 
-  describe('When a user creates a task with an empty title', () => {
-    it('should return a `Title is required`', async () => {
-      const user = await request(app)
-        .post('/api/v1/users/signin')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .send({ email: users[0].email, password: users[0].password });
-
-      const { token } = user.body;
-
-      const toDo = await request(app)
-        .post('/api/v1/todos')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(toDos[0])
-        .expect(201);
-
-      const { toDoId } = toDo.body.toDo;
-
-      const response = await request(app)
-        .post(`/api/v1/todos/${toDoId}/tasks`)
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send()
-        .expect(400);
-
-      expect(JSON.parse(response.error.text).errors[0].msg).to.equal('Title is required');
-    });
-  });
-
   describe('When a user updates a task', () => {
-    it('should return the updated task', async () => {
-      const user = await request(app)
-        .post('/api/v1/users/signin')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .send({ email: users[0].email, password: users[0].password });
-
-      const { token } = user.body;
-
-      const toDo = await request(app)
-        .post('/api/v1/todos')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(toDos[0])
-        .expect(201);
-
-      const { toDoId } = toDo.body.toDo;
-
-      const task = await request(app)
-        .post(`/api/v1/todos/${toDoId}/tasks`)
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(tasks[0])
-        .expect(201);
-
-      const { taskId } = task.body.task;
-
+    it('should return the updated task object', async () => {
       const response = await request(app)
-        .patch(`/api/v1/todos/${toDoId}/tasks/${taskId}`)
+        .patch(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks/${storage
+          .getItemSync('taskId')}`)
         .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send({ completed: false })
+        .set('token', storage.getItemSync('token'))
+        .send({ completed: true })
         .expect(200);
 
       expect(response.body).to.be.an('object');
-      expect(response.body.completed).to.equal(false);
+      expect(response.body.completed).to.equal(true);
+    });
+  });
+
+  describe('When a user sends an invalid task details', () => {
+    it('should return `Title is required`', async () => {
+      const response = await request(app)
+        .post(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks`)
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .set('token', storage.getItemSync('token'))
+        .send()
+        .expect(400);
+
+      expect(JSON.parse(response.error.text).errors[0].msg)
+        .to.equal('Title is required');
     });
 
     it('should return `Completed can only be true or false`', async () => {
-      const user = await request(app)
-        .post('/api/v1/users/signin')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .send({ email: users[0].email, password: users[0].password });
-
-      const { token } = user.body;
-
-      const toDo = await request(app)
-        .post('/api/v1/todos')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(toDos[0])
-        .expect(201);
-
-      const { toDoId } = toDo.body.toDo;
-
-      const task = await request(app)
-        .post(`/api/v1/todos/${toDoId}/tasks`)
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
-        .send(tasks[0])
-        .expect(201);
-
-      const { taskId } = task.body.task;
-
       const response = await request(app)
-        .patch(`/api/v1/todos/${toDoId}/tasks/${taskId}`)
+        .patch(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks/${storage
+          .getItemSync('taskId')}`)
         .set('Accept', 'application/x-www-form-urlencoded')
-        .set('token', token)
+        .set('token', storage.getItemSync('token'))
         .send({ completed: null })
         .expect(400);
 
-      expect(JSON.parse(response.error.text).errors[0].msg).to.equal('Completed can only be true or false');
+      expect(JSON.parse(response.error.text).errors[0].msg)
+        .to.equal('Completed can only be true or false');
+    });
+
+    it('should return `taskId is invalid`', async () => {
+      const response = await request(app)
+        .patch(`/api/v1/todos/${storage.getItemSync('toDoId')}/tasks/3953oewr`)
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .set('token', storage.getItemSync('token'))
+        .send({ completed: null })
+        .expect(400);
+
+      expect(response.body.error).to.equal('taskId is ivalid');
+    });
+
+    it('should return `task does not exist`', async () => {
+      const response = await request(app)
+        .patch(`/api/v1/todos/${storage
+          .getItemSync('toDoId')}/tasks/5a15507e6c7d3b0014b47c6f`)
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .set('token', storage.getItemSync('token'))
+        .send({ completed: null })
+        .expect(400);
+
+      expect(response.body.error).to.equal('Task does not exist');
+    });
+
+    it('should return `todo does not exist`', async () => {
+      const response = await request(app)
+        .patch('/api/v1/todos/5a15507e6c7d3b0014b47c6f/tasks/5a15507e6c7d3b0014b47c6f')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .set('token', storage.getItemSync('token'))
+        .send({ completed: null })
+        .expect(400);
+
+      expect(response.body.error).to.equal('To-do does not exist');
+    });
+
+    it('should return `toDoId is invalid`', async () => {
+      const response = await request(app)
+        .patch('/api/v1/todos/5a15507e/tasks/5a15507e6c7d3b0014b47c6f')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .set('token', storage.getItemSync('token'))
+        .send({ completed: null })
+        .expect(400);
+
+      expect(response.body.error).to.equal('toDoId is invalid');
     });
   });
 });

@@ -1,6 +1,7 @@
 import Task from './../models/Task';
-
+import User from './../models/User';
 import Search from './../helpers/Search';
+import Mailer from '../helpers/Mailer';
 
 /**
  * @class TaskController
@@ -29,6 +30,7 @@ class TaskController {
       priority: task.priority,
       completed: task.completed,
       createdAt: task.createdAt,
+      assignedTo: task.assignedTo,
       dueDate: task.dueDate,
     }));
 
@@ -63,33 +65,62 @@ class TaskController {
       request.sanitizeBody('title').escape();
       request.sanitizeBody('priority').escape();
 
-      const {
-        title,
-        priority,
-        assignedTo,
-        dueDate
-      } = request.body;
-      const { toDoId } = request.params;
+      const { currentToDo } = request;
 
-      const task = await Task({
-        toDoId,
-        title,
-        priority,
-        assignedTo,
-        dueDate
-      }).save();
+      const assignee = await Search
+        .searchOne(User, { email: request.body.assignedTo });
 
-      response.status(201).json({
-        task: {
-          taskId: task._id,
-          toDoId: task.toDoId,
-          assignedTo: task.assignedTo,
-          title: task.title,
-          priority: task.priority,
-          createdAt: task.createdAt,
-          dueDate: task.dueDate,
+      if (assignee) {
+        const isCollaborator =
+          currentToDo.collaborators.find(collaborator => (
+            String(collaborator) === String(assignee._id)
+          ));
+
+        if (isCollaborator) {
+          const {
+            title,
+            priority,
+            dueDate
+          } = request.body;
+          const { toDoId } = request.params;
+
+          const task = await Task({
+            toDoId,
+            title,
+            priority,
+            dueDate,
+            assignedTo: `${assignee.firstName} ${assignee.lastName}`,
+          }).save();
+
+          await Mailer.sendCustomMail({
+            from: `"Babatunde Adeyemi" <${process.env.GMAIL_USER}>`,
+            to: assignee.email,
+            subject: 'New Task!',
+            text: 'Hi there! You have been assigned a new task!'
+          });
+
+          response.status(201).json({
+            task: {
+              toDoId,
+              title,
+              priority,
+              dueDate,
+              taskId: task._id,
+              completed: task.completed,
+              createdAt: task.createdAt,
+              assignedTo: task.assignedTo,
+            }
+          });
+        } else {
+          response.status(400).json({
+            error: 'User does not exist'
+          });
         }
-      });
+      } else {
+        response.status(400).json({
+          error: 'You can only assign tasks to collaborators'
+        });
+      }
     }
   }
 
@@ -112,18 +143,20 @@ class TaskController {
         errors: requestErrors
       });
     } else {
-      const updatedTask = await Task
-        .findByIdAndUpdate(request.params.taskId, request.body);
+      const updatedTask = await Task.findByIdAndUpdate(
+        request.params.taskId,
+        request.body,
+        { new: true }
+      );
 
-      const newTask = await Task.findById(updatedTask._id);
-      // Don't forget assign
       const task = {
-        taskId: newTask._id,
-        toDoId: newTask.toDoId,
-        title: newTask.title,
-        priority: newTask.priority,
-        completed: newTask.completed,
-        dueDate: newTask.dueDate
+        taskId: updatedTask._id,
+        toDoId: updatedTask.toDoId,
+        title: updatedTask.title,
+        priority: updatedTask.priority,
+        completed: updatedTask.completed,
+        assignedTo: updatedTask.assignedTo,
+        dueDate: updatedTask.dueDate
       };
 
       response.status(200).json(task);

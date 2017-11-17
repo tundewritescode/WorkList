@@ -1,5 +1,14 @@
 import Task from './../models/Task';
 
+/**
+ * Verifies tasks
+ *
+ * @param {Object} request - request object
+ * @param {Object} response - response object
+ * @param {function} next - passed flow of execution to the next middleware
+ *
+ * @returns {void}
+ */
 const verifyTask = async (request, response, next) => {
   try {
     const { taskId, toDoId } = request.params;

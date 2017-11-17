@@ -23,10 +23,9 @@ const updateTaskSuccess = task => (
  *
  * @returns {Object} - action type and payload
  */
-const updateTaskFailure = error => (
+const updateTaskFailure = () => (
   {
     type: Task.UPDATE_TASK_FAILURE,
-    error,
   }
 );
 
@@ -36,7 +35,7 @@ const updateTask = (newTaskData, toDoId, taskId) => async (dispatch) => {
       .patch(`/api/v1/todos/${toDoId}/tasks/${taskId}`, newTaskData);
     dispatch(updateTaskSuccess(data));
   } catch (error) {
-    dispatch(updateTaskFailure(error));
+    dispatch(updateTaskFailure());
   }
 };
 

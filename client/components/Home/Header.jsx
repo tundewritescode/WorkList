@@ -25,9 +25,31 @@ const Header = () => (
                 >Get Started
                 </Link>
               </li>
-              <li><Link to="/sign-in" href="sign-in">Sign In</Link></li>
+              <li>
+                <Link to="/sign-in" id="sign-in" href="sign-in">Sign In</Link>
+              </li>
               <li><a href="#about">About</a></li>
             </ul>
+
+            <ul id="slide-out" className="side-nav">
+              <li>
+                <Link
+                  href="/sign-up"
+                  to="/sign-up"
+                >Get Started
+                </Link>
+              </li>
+              <li>
+                <Link to="/sign-in" id="sign-in" href="sign-in">Sign In</Link>
+              </li>
+              <li><a href="#about">About</a></li>
+            </ul>
+            <a
+              href="#links"
+              data-activates="slide-out"
+              className="button-collapse"
+            ><i className="material-icons">menu</i>
+            </a>
           </div>
         </div>
       </Nav>
@@ -37,7 +59,8 @@ const Header = () => (
             <p
               className="copy"
             >
-              A smarter way to manage your tasks, organize your thoughts, and plan your actions
+              A smarter way to manage your tasks, organize
+              your thoughts, and plan your actions
             </p>
             <Link
               href="/sign-up"

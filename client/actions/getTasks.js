@@ -23,10 +23,9 @@ const getTasksSuccess = tasks => (
  *
  * @returns {Object} - action type and payload
  */
-const getTasksFailure = error => (
+const getTasksFailure = () => (
   {
     type: Task.GET_TASKS_FAILURE,
-    error,
   }
 );
 
@@ -44,7 +43,7 @@ const getTasks = toDoId => async (dispatch) => {
     await localStorage.setItem('toDoId', toDoId);
     dispatch(getTasksSuccess(data.tasks));
   } catch (error) {
-    dispatch(getTasksFailure(error));
+    dispatch(getTasksFailure());
   }
 };
 

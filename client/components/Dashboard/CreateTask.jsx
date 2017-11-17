@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 
 import createTask from './../../actions/createTask';
 
@@ -38,11 +39,11 @@ class CreateTask extends Component {
   }
 
   /**
-   * Handles the changes in the sign in form
+   * Handles the changes in the input fields
    *
    * @param {Object} event - the input field onChange event
    *
-   * @memberof SignIn
+   * @memberof CreateTask
    *
    * @return {void}
    */
@@ -61,12 +62,17 @@ class CreateTask extends Component {
  */
   handleSubmit(form) {
     form.preventDefault();
-    const formDate = Date.parse(`${this.state.dueDate}T${this.state.dueTime}Z`);
-    this.props.createTask({
-      ...this.state,
-      dueDate: new Date(formDate)
-    }, localStorage.toDoId);
-    this.setState(this.initialState);
+    const formDate = `${this.state.dueDate}T${this.state.dueTime}Z`;
+
+    if (Date.now() > Date.parse(formDate)) {
+      toastr.error('Please set a future date');
+    } else {
+      this.props.createTask({
+        ...this.state,
+        dueDate: formDate
+      }, localStorage.toDoId);
+      this.setState(this.initialState);
+    }
   }
 
   /**
@@ -105,16 +111,17 @@ class CreateTask extends Component {
                     name="assignedTo"
                     value={this.state.assignedTo}
                     onChange={this.handleChange}
-                    type="text"
+                    type="email"
                     className="validate"
                     required
                   />
-                  <label htmlFor="title">Assign to</label>
+                  <label htmlFor="title">Assign to (e.g., example@about.com)</label>
                 </div>
 
                 <div className="input-field col s6">
                   <div className="row">
                     <select
+                      required
                       name="priority"
                       className="browser-default"
                       value={this.state.priority}
