@@ -1,0 +1,5 @@
+eslint:
+  enabled: false
+  config_file: .eslintrc.json
+scss:
+  enabled: false

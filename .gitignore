@@ -57,3 +57,13 @@ typings/
 # dotenv environment variables file
 .env
 
+package-lock.json
+
+server/uploads/
+server/appProd.js
+dist
+selenium-debug.log
+.node-persist
+client/__tests__/components/Aut
+*.snap
+reports
