@@ -29,7 +29,7 @@ class TaskController {
       priority: task.priority,
       completed: task.completed,
       createdAt: task.createdAt,
-      dueAt: task.dueAt,
+      dueDate: task.dueDate,
     }));
 
     response.status(200).json({
@@ -63,21 +63,70 @@ class TaskController {
       request.sanitizeBody('title').escape();
       request.sanitizeBody('priority').escape();
 
-      const { title, priority } = request.body;
+      const {
+        title,
+        priority,
+        assignedTo,
+        dueDate
+      } = request.body;
       const { toDoId } = request.params;
 
-      const task = await Task({ toDoId, title, priority }).save();
+      const task = await Task({
+        toDoId,
+        title,
+        priority,
+        assignedTo,
+        dueDate
+      }).save();
 
       response.status(201).json({
         task: {
           taskId: task._id,
           toDoId: task.toDoId,
+          assignedTo: task.assignedTo,
           title: task.title,
           priority: task.priority,
           createdAt: task.createdAt,
-          dueAt: task.dueAt,
+          dueDate: task.dueDate,
         }
       });
+    }
+  }
+
+  /**
+   * Edits tasks
+   *
+   * @param {Object} request
+   * @param {Object} response
+   *
+   * @returns {void}
+   */
+  static async updateTask(request, response) {
+    request.checkBody('completed', 'Completed can only be true or false')
+      .isBoolean();
+
+    const requestErrors = request.validationErrors();
+
+    if (requestErrors) {
+      response.status(400).json({
+        errors: requestErrors
+      });
+    } else {
+      const updatedTask = await Task
+        .findByIdAndUpdate(request.params.taskId, request.body);
+
+      const newTask = await Task.findById(updatedTask._id);
+      // Don't forget assign
+      const task = {
+        taskId: newTask._id,
+        toDoId: newTask.toDoId,
+        title: newTask.title,
+        priority: newTask.priority,
+        completed: newTask.completed,
+        dueDate: newTask.dueDate
+      };
+
+      response.status(200).json(task);
     }
   }
 }

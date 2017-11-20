@@ -1,7 +1,5 @@
 import ToDo from './../models/ToDo';
 
-import Search from './../helpers/Search';
-
 /**
  * @class ToDoController
  */
@@ -20,8 +18,8 @@ class ToDoController {
    */
   static async getToDos(request, response) {
     try {
-      const toDos = await Search.searchAll(ToDo, { ownerId: request.user._id });
-
+      const toDos = await ToDo.find({ ownerId: request.user._id })
+        .populate('ownerId', 'firstName lastName');
       const refinedTodos = toDos.map(toDo => ({
         toDoId: toDo._id,
         ownerId: toDo.ownerId,
@@ -32,9 +30,7 @@ class ToDoController {
         toDos: refinedTodos,
       });
     } catch (error) {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
+      response.sendStatus(500);
     }
   }
 
@@ -52,7 +48,7 @@ class ToDoController {
    */
   static async createToDo(request, response) {
     try {
-      request.checkBody('title', 'Tiltle is required').notEmpty().trim();
+      request.checkBody('title', 'Title is required').notEmpty().trim();
 
       const requestErrors = request.validationErrors();
 
@@ -66,12 +62,16 @@ class ToDoController {
         const {
           _id,
           userId,
-          ownerId,
           title,
         } = await ToDo({
           title: request.body.title.trim(),
           ownerId: request.user._id,
         }).save();
+
+        const {
+          ownerId
+        } = await ToDo.findOne({ _id, ownerId: request.user._id })
+          .populate('ownerId', 'firstName lastName');
 
         response.status(201).json({
           toDo: {
@@ -83,9 +83,7 @@ class ToDoController {
         });
       }
     } catch (error) {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
+      response.sendStatus(500);
     }
   }
 }

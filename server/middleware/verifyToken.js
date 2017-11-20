@@ -23,15 +23,14 @@ const verifyToken = async (request, response, next) => {
 
       if (user) {
         request.user = user;
-
         next();
       } else {
-        response.status(404).json({
+        response.status(400).json({
           error: 'User does not exist',
         });
       }
     } else {
-      response.status(403).json({
+      response.status(401).json({
         error: 'You are not logged in',
       });
     }
@@ -41,9 +40,7 @@ const verifyToken = async (request, response, next) => {
         error: 'Token has expired',
       });
     } else {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
+      response.sendStatus(500);
     }
   }
 };

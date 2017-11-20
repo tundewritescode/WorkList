@@ -22,12 +22,12 @@ class CollaboratorController {
   static async getCollaborators(request, response) {
     const { toDoId } = request.params;
 
-    const collaborators = await Search.searchAll(Collaborator, { toDoId });
+    const collaborators = await Collaborator.find({ toDoId })
+      .populate('toDoId', 'title');
 
     const refinedCollaborators = collaborators.map(collaborator => ({
       toDoId: collaborator.toDoId,
       collaborator: collaborator.collaboratorId,
-      readOnly: collaborator.readOnly,
     }));
 
     response.status(200).json({
@@ -49,7 +49,6 @@ class CollaboratorController {
    */
   static async addCollaborators(request, response) {
     request.checkBody('email', 'Invalid email').isEmail();
-    request.checkBody('readOnly', 'Permission must be a boolean').isBoolean();
 
     const requestErrors = request.validationErrors();
 
@@ -69,7 +68,7 @@ class CollaboratorController {
           error: 'User does not exist',
         });
       } else {
-        const collaboratorId = existingUser.id;
+        const collaboratorId = existingUser._id;
 
         const existingCollaborator = await Search.searchOne(
           Collaborator,
@@ -84,17 +83,11 @@ class CollaboratorController {
             error: 'Collaborator is already added',
           });
         } else {
-          const collaborator = await Collaborator({ toDoId, collaboratorId })
+          await Collaborator({ toDoId, collaboratorId })
             .save();
 
-          const refinedCollaborator = {
-            toDoId: collaborator.toDoId,
-            collaboratorId: collaborator.collaboratorId,
-            readOnly: collaborator.readOnly,
-          };
-
-          response.status(201).json({
-            collaborator: refinedCollaborator,
+          response.status(200).json({
+            message: 'Collaborator added'
           });
         }
       }

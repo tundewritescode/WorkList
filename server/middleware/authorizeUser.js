@@ -14,8 +14,8 @@ const authorizeUser = async (request, response, next) => {
     const toDo = await ToDo.findOne({ _id: request.params.toDoId });
 
     if (toDo) {
-      if (toDo.ownerId !== String(request.user._id)) {
-        response.status(401).json({
+      if (String(toDo.ownerId) !== String(request.user._id)) {
+        response.status(403).json({
           error: 'You are not authorized'
         });
       } else {
@@ -32,9 +32,7 @@ const authorizeUser = async (request, response, next) => {
         error: 'toDoId is invalid'
       });
     } else {
-      response.status(500).json({
-        error: 'Oops! Something broke',
-      });
+      response.sendStatus(500);
     }
   }
 };
