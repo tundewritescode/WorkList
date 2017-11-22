@@ -27,7 +27,7 @@ describe('ToDo Controller', async () => {
   });
 
   describe('When a user creates a todo', () => {
-    it('should return a new todo details', async () => {
+    it('should return a new todo object', async () => {
       const response = await request(app)
         .post('/api/v1/todos')
         .set('Accept', 'application/x-www-form-urlencoded')
@@ -42,7 +42,7 @@ describe('ToDo Controller', async () => {
     });
   });
 
-  describe('When a user creates a todo with an empty title', () => {
+  describe('When a user sends a bad todo request', () => {
     it('should return a `Title is required`', async () => {
       const response = await request(app)
         .post('/api/v1/todos')

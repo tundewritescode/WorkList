@@ -93,6 +93,15 @@ class ToDo extends Component {
             <p>Todo by: {this.props.owner}</p>
             <span>
               <Link
+                to="#add-collaborator"
+                href="#add-collaborator"
+                className="modal-trigger"
+              ><i className="material-icons">person_add</i>
+                &nbsp;Add collaborator
+              </Link>
+            </span>
+            <span>
+              <Link
                 to="#create-task"
                 href="#create-task"
                 className="modal-trigger"

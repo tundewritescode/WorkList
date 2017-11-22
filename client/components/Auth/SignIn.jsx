@@ -71,14 +71,24 @@ class SignIn extends Component {
  *
  * @param {Object} user - user details from Google
  *
- * @memberof SignIn
+ * @memberof SignUp
  *
  * @returns {void}
  */
   handleGoogle(user) {
-    const { email } = user.profileObj;
+    const {
+      email,
+      givenName,
+      familyName,
+    } = user.profileObj;
 
-    this.props.setUser({ email, socialAuth: true }, 'signin');
+    const newUser = {
+      email,
+      firstName: givenName,
+      lastName: familyName,
+    };
+
+    this.props.setUser(newUser, 'social-auth');
   }
 
   /**
@@ -95,7 +105,7 @@ class SignIn extends Component {
               <Brand />
               <ul id="nav-mobile" className="right hide-on-med-and-down">
                 <li>
-                  <Link to="/sign-in" href="/sign-in">Sign in</Link>
+                  <Link to="/sign-up" href="/sign-up">Sign up</Link>
                 </li>
               </ul>
             </div>
@@ -105,9 +115,14 @@ class SignIn extends Component {
         <div className="row">
           <div className="form">
             <GoogleLogin
-              clientId="395337075846-o26c3gdjf2eujf30eo7ik20t2c5oec5k.apps.googleusercontent.com"
+              clientId={process.env.CLIENT_ID}
               buttonText="Sign in with Google"
               onSuccess={this.handleGoogle}
+              className="btn-large"
+              style={{
+                background: '#CF493B',
+                marginTop: '40px'
+              }}
             />
             <form action="" className="col s12" onSubmit={this.handleSubmit}>
               <h4>Sign in</h4>

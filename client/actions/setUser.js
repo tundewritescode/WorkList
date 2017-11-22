@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { Auth } from './types';
 import history from './../utils/history';
@@ -60,6 +61,7 @@ const setUser = (credentials, method, location = '/dashboard') =>
       }
     } catch (error) {
       dispatch(setUserFailure());
+      toastr.error(error.response.data.error);
     }
   };
 

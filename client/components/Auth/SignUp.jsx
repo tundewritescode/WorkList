@@ -88,10 +88,9 @@ class SignUp extends Component {
       email,
       firstName: givenName,
       lastName: familyName,
-      socialAuth: true,
     };
 
-    this.props.setUser(newUser, 'signup');
+    this.props.setUser(newUser, 'social-auth');
   }
 
   /**
@@ -119,9 +118,14 @@ class SignUp extends Component {
           <div className="form">
             <form action="" className="col s12" onSubmit={this.handleSubmit}>
               <GoogleLogin
-                clientId="395337075846-o26c3gdjf2eujf30eo7ik20t2c5oec5k.apps.googleusercontent.com"
+                clientId={process.env.CLIENT_ID}
                 buttonText="Sign up with Google"
                 onSuccess={this.handleGoogle}
+                className="btn-large"
+                style={{
+                  background: '#CF493B',
+                  marginTop: '40px'
+                }}
               />
               <h4>Sign up</h4>
               <div className="row">

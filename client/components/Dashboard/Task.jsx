@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Moment from 'react-moment';
 
 import updateTask from './../../actions/updateTask';
 
@@ -19,11 +20,10 @@ class Task extends Component {
   constructor(props) {
     super(props);
 
-    this.initialState = {
+    this.state = {
       completed: this.props.completed
     };
 
-    this.state = this.initialState;
     this.handleCheck = this.handleCheck.bind(this);
   }
 
@@ -34,17 +34,16 @@ class Task extends Component {
    *
    * @returns {void}
    */
-  async handleCheck(event) {
-    const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const { name } = target;
-
+  handleCheck() {
     this.setState({
-      [name]: value
+      completed: !this.state.completed
     });
 
     this.props
-      .updateTask(this.state, this.props.toDoId, this.props.taskId);
+      .updateTask(
+        { completed: !this.state.completed },
+        this.props.toDoId, this.props.taskId
+      );
   }
 
   /**
@@ -57,19 +56,21 @@ class Task extends Component {
           type="checkbox"
           name="completed"
           className="filled-in"
-          id={this.props.taskId}
           checked={this.props.completed}
+          id={this.props.taskId}
           onChange={this.handleCheck}
         />
         <label
-          className={String(this.state.completed)}
+          className={String(this.props.completed)}
           htmlFor={this.props.taskId}
-          >{this.props.title}
+        >{this.props.title}
         </label>
         <div className="collaborator">
           <span>Assigned to: {this.props.assignedTo}</span>
           <span>Priority: {this.props.priority}</span>
-          <span>Due at: {this.props.dueDate}</span>
+          <span>Due in:
+            &nbsp;<Moment fromNow ago>{this.props.dueDate}</Moment>
+          </span>
         </div>
       </div>
     );
@@ -88,7 +89,7 @@ Task.propTypes = {
   assignedTo: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,
   taskId: PropTypes.string.isRequired,
-  dueDate: PropTypes.instanceOf(Date).isRequired
+  dueDate: PropTypes.string.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(Task);

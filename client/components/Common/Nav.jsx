@@ -8,17 +8,25 @@ import PropTypes from 'prop-types';
  * @returns {Object} - Nav component
  */
 class Nav extends Component {
+  /**
+   * @returns {void}
+   */
   componentDidMount() {
-    $(".button-collapse").sideNav();
+    $('.button-collapse').sideNav();
   }
 
+  /**
+   * Renders the Nav Component
+   *
+   * @returns {Object} - the Nav component
+   */
   render() {
     return (
       <nav>
         {this.props.children}
       </nav>
-    )
-  };
+    );
+  }
 }
 
 Nav.propTypes = {

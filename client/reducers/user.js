@@ -8,7 +8,6 @@ const initialState = {
   email: '',
   avatar: '',
   token: '',
-  error: '',
 };
 
 /**

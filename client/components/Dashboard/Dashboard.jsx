@@ -10,8 +10,10 @@ import ToDo from './ToDo.jsx';
 import Profile from './Profile.jsx';
 import ChangeProfile from './ChangeProfile.jsx';
 import CreateTask from './CreateTask.jsx';
+import AddCollaborator from './AddCollaborator.jsx';
 import SignOut from './../Auth/SignOut.jsx';
 
+import addCollaborator from './../../actions/addCollaborator';
 import createToDo from './../../actions/createToDo';
 import getToDos from './../../actions/getToDos';
 import signOut from './../../actions/signOut';
@@ -40,7 +42,7 @@ class Dashboard extends Component {
    *
    * @returns {void}
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getToDos();
   }
   /**
@@ -108,7 +110,7 @@ class Dashboard extends Component {
                 <Profile />
               </div>
             </li>
-            <li>
+            <li className="show-on-medium-and-down">
               <SignOut signOut={this.props.signOut} />
             </li>
           </ul>
@@ -161,6 +163,10 @@ class Dashboard extends Component {
         </div>
         <ChangeProfile key="edit-profile" />
         <CreateTask key="create-task" />
+        <AddCollaborator
+          key="add-collaborator"
+          addCollaborator={this.props.addCollaborator}
+        />
       </section>
     );
   }
@@ -171,10 +177,13 @@ Dashboard.propTypes = {
   getToDos: PropTypes.func.isRequired,
   toDos: PropTypes.arrayOf(PropTypes.object).isRequired,
   signOut: PropTypes.func.isRequired,
+  addCollaborator: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ createToDo, getToDos, signOut }, dispatch)
+  bindActionCreators({
+    addCollaborator, createToDo, getToDos, signOut
+  }, dispatch)
 );
 
 const mapStateToProps = state => (

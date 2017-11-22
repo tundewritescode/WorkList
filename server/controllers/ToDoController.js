@@ -18,8 +18,12 @@ class ToDoController {
    */
   static async getToDos(request, response) {
     try {
-      const toDos = await ToDo.find({ ownerId: request.user._id })
-        .populate('ownerId', 'firstName lastName');
+      const toDos = await ToDo.find({
+        collaborators: {
+          $in: [request.user._id]
+        }
+      }).populate('ownerId', 'firstName lastName');
+
       const refinedTodos = toDos.map(toDo => ({
         toDoId: toDo._id,
         ownerId: toDo.ownerId,
@@ -66,6 +70,7 @@ class ToDoController {
         } = await ToDo({
           title: request.body.title.trim(),
           ownerId: request.user._id,
+          collaborators: [request.user._id]
         }).save();
 
         const {

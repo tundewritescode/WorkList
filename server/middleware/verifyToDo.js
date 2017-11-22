@@ -11,16 +11,16 @@ import ToDo from './../models/ToDo';
  */
 const authorizeUser = async (request, response, next) => {
   try {
-    const toDo = await ToDo.findOne({ _id: request.params.toDoId });
+    const toDo = await ToDo.findOne({
+      _id: request.params.toDoId,
+      collaborators: {
+        $in: [request.user._id]
+      }
+    });
 
     if (toDo) {
-      if (String(toDo.ownerId) !== String(request.user._id)) {
-        response.status(403).json({
-          error: 'You are not authorized'
-        });
-      } else {
-        next();
-      }
+      request.currentToDo = toDo;
+      next();
     } else {
       response.status(400).json({
         error: 'To-do does not exist',

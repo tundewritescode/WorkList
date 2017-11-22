@@ -11,8 +11,8 @@
     "document": true,
     "window": true,
     "localStorage": true,
-    "$": true,
     "FormData": true,
+    "$": true,
     "jest": true
   },
   "rules": {

@@ -16,6 +16,7 @@ const userRoutes = (versionURL, app) => {
     `${versionURL}/profile/`,
     verifyToken, UserController.editProfile
   );
+  app.post(`${versionURL}/users/social-auth`, UserController.socialLogin);
   app.post(`${versionURL}/resetpassword`, UserController.generatePasswordToken);
   app.patch(`${versionURL}/resetpassword`, UserController.saveNewPassword);
 };

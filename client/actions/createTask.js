@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 
 import { Task } from './types';
 
@@ -23,10 +24,9 @@ const createTaskSuccess = task => (
  *
  * @returns {Object} - action type and payload
  */
-const createTaskFailure = error => (
+const createTaskFailure = () => (
   {
     type: Task.CREATE_TASK_FAILURE,
-    error,
   }
 );
 
@@ -44,8 +44,10 @@ const createTask = (task, toDoId) => async (dispatch) => {
       .post(`/api/v1/todos/${toDoId}/tasks`, task);
     dispatch(createTaskSuccess(data.task));
     $('#create-task').modal('close');
+    toastr.success('Task created');
   } catch (error) {
-    dispatch(createTaskFailure(error));
+    dispatch(createTaskFailure());
+    toastr.error(error.response.data.error);
   }
 };
 
