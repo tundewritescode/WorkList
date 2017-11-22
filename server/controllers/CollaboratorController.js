@@ -60,10 +60,15 @@ class CollaboratorController {
             error: 'Collaborator is already added',
           });
         } else {
+<<<<<<< HEAD
           await ToDo.update(
             { _id: currentToDo._id },
             { $push: { collaborators: collaboratorId } }
           );
+=======
+          await Collaborator({ toDoId, collaboratorId })
+            .save();
+>>>>>>> 281b9165405f50ce4095a4c0cf9cad4dd0066171
 
           response.status(200).json({
             message: 'Collaborator added'
