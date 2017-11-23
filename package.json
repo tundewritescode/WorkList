@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/tundewritescode/WorkList#readme",
   "dependencies": {
+    "atrigger": "0.0.365",
     "axios": "^0.17.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -65,6 +66,7 @@
     "jsonwebtoken": "^8.1.0",
     "materialize-css": "^0.100.2",
     "moment": "^2.19.2",
+    "moment-timezone": "^0.5.14",
     "mongoose": "^4.12.3",
     "moxios": "^0.4.0",
     "node-cron": "^1.2.1",

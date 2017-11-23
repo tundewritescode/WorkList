@@ -15,6 +15,7 @@ import toDoRoutes from './routes/toDoRoutes';
 import taskRoutes from './routes/taskRoutes';
 import fileRoutes from './routes/fileRoutes';
 import collaboratorRoutes from './routes/collaboratorRoutes';
+import reminderRoutes from './routes/reminderRoutes';
 
 const app = express();
 
@@ -25,10 +26,13 @@ app.use(express.static(path.join(__dirname, '../client/assets')));
 app.use(express.static(path.join('dist')));
 app.use(fileUpload());
 
+app.get('/AtriggerVerify.txt', (req, res) => res.sendFile(path.join(__dirname, '../ATriggerVerify.txt')));
+
 userRoutes('/api/v1', app);
 toDoRoutes('/api/v1', app);
 taskRoutes('/api/v1', app);
 fileRoutes('/api/v1', app);
+reminderRoutes('/api/v1', app);
 collaboratorRoutes('/api/v1', app);
 
 const isDevelopment = process.env.NODE_ENV !== 'production';

@@ -22,7 +22,6 @@ describe('user reducer', () => {
       email: '',
       avatar: '',
       token: '',
-      error: '',
     });
   });
 

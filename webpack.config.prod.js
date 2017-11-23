@@ -21,7 +21,6 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              'stage-3',
               'react',
               ['env', {
                 targets: {
@@ -59,16 +58,11 @@ module.exports = {
         CLOUD_NAME: JSON.stringify(process.env.CLOUD_NAME)
       }
     }),
-<<<<<<< HEAD
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
     }),
     new webpack.optimize.UglifyJsPlugin(),
-=======
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
->>>>>>> 281b9165405f50ce4095a4c0cf9cad4dd0066171
   ],
 };

@@ -90,6 +90,7 @@ class TaskController {
             priority,
             dueDate,
             assignedTo: `${assignee.firstName} ${assignee.lastName}`,
+            reminder: `${assignee._id}`
           }).save();
 
           await Mailer.sendCustomMail({

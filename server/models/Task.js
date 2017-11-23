@@ -10,6 +10,7 @@ const taskSchema = new Schema({
   title: String,
   priority: String,
   assignedTo: String,
+  reminder: { type: Schema.Types.ObjectId, ref: 'User' },
   completed: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   dueDate: Date,
