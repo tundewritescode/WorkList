@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+package-lock.json
+
+server/uploads/
+server/appProd.js
+dist

@@ -1,0 +1,324 @@
+$white: #fff;
+$nearBlack: #c4c4c4;
+$black: #000;
+$lightGreen: #87c4ae;
+$purple: rgb(137, 55, 154);
+$lighterPurple: rgb(160, 95, 175);
+$red: rgb(252, 183, 183);
+$blue: rgb(170, 170, 253);
+$orange: rgb(255, 249, 164);
+$medium-screen: 1024px !default;
+$medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
+
+.row {
+  margin-bottom: 0;
+}
+
+.purple {
+  background: $purple;
+  padding-left: 10px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.white {
+  background: $white;
+  color: $purple;
+  padding-right: 10px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.container-fluid {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h5 {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.btn-large {
+  background: $purple;
+  border-radius: 25px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  &:hover {
+    background: $lighterPurple;
+  }
+}
+
+nav {
+  background: transparent;
+  box-shadow: none;
+
+  .cta-small {
+    background: $purple;
+    border-radius: 25px;
+    &:hover {
+      background: $lighterPurple;
+    }
+  }
+}
+
+header, .overlay, {
+  height: 80vh;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.hero {
+  height: 65vh;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header {
+  background-image: url('images/background.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  color: $white;
+}
+
+.overlay {
+  background: rgba(136, 55, 154, 0.274);
+}
+
+.heading, .copy {
+  text-shadow: 2px 5px 10px $black !important;
+}
+
+.heading {
+  font-weight: 500;
+}
+
+.copy {
+  font-size: 30px;
+  width: 40%;
+  display: block;
+  letter-spacing: 1px;
+  @media #{$medium-and-down} {
+    width: 80%;
+  }
+}
+
+.expose {
+  padding: 70px 0;
+  background: $white;
+  h5 {
+    text-align: center;
+  }
+
+  .cards {
+    padding: 10px 0 0 0;
+  }
+  
+  .now {
+    text-align: center;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 3px 20px $nearBlack;
+    font-family: 'Montserrat Alternates', sans-serif;
+    &:hover {
+      box-shadow: 0 10px 40px $nearBlack;
+    }
+  }
+}
+
+.about {
+  background-image: url('images/startup2.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  text-align: center;
+  color: $white;
+  h5 {
+    text-decoration: underline;
+    text-decoration-color: $purple;
+  }
+  a {
+    color: $purple;
+    text-decoration: underline;
+    text-decoration-color: $white;
+  }
+
+  .content {
+    padding: 70px 0;
+    font-family: 'Montserrat Alternates', sans-serif;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .overlay2 {
+    background: rgba(136, 55, 154, 0.274);
+  }
+}
+
+.dashboard, .auth {
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: $black;
+  nav {
+    background: $lighterPurple;
+  }
+
+  h4 {
+    text-align: center;
+  }
+}
+
+.dashboard {
+  .content {
+    margin-left: 180px;
+    background: #F4F8F9;
+    padding-top: 40px;
+    height: 90vh;
+    .container-fluid {
+      width: 90%;    
+    }
+  }
+  .container-fluid {
+    width: 99%;
+  }
+}
+
+.side-nav {
+  margin-top: 64px;
+  width: 180px;
+  background: $white;  
+  .name {
+    margin-top: -12px !important;
+    text-align: center;
+    margin-left: -20px;
+    float: left;
+  }
+
+  color: black;
+  a {
+    color: $purple;
+  }
+}
+
+.avatar {
+  padding: 0 !important;
+  margin: 40px 0 10px 20px !important;
+}
+
+.auth {
+  .form {
+    width: 70% !important;
+    margin: 40px auto !important;
+    box-shadow: 2px 2px 40px $nearBlack !important;
+    border-radius: 5px;
+    overflow: auto;
+    padding: 0 30px 35px;
+
+    input {
+      border-bottom: 1px solid $purple;
+      &:focus {
+        border-bottom: 1px solid $purple !important;
+      }
+    }
+    .active {
+      color: $purple !important;
+    }
+  }
+}
+
+.page-footer {
+  background: $lighterPurple;
+  padding-top: 0;
+  font-family: 'Montserrat Alternates', sans-serif;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.todos {
+  padding: 30px 0;
+}
+
+.todo {
+  border-radius: 10px;
+  a {
+    color: $black;
+  }
+  .card-action {
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+  }
+  .card-action a {
+    color: $purple !important;
+  }
+}
+
+.todo-info {
+  font-size: 11px;
+  padding-bottom: 10px;
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.todo-info-icon {
+  font-size: 16px;
+  vertical-align: text-bottom;
+}
+
+.task {
+  box-shadow: 0 1px  2px 1px $nearBlack;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  &:first-child {
+    margin-top: 7px;
+  }
+  &:last-of-type {
+    margin-bottom: 30px;
+  }
+  label {
+    color: $black;
+  }
+  padding: 10px;
+  .collaborator {
+    margin-left: 32px;
+    font-size: 10px;
+    span {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  }
+}
+
+.tasks {
+  .normal {
+    background: $blue;
+  }
+  .critical {
+    background: $red;
+  }
+  .urgent {
+    background: $orange;
+  }
+}
+
+.todDoMeta {
+  span {
+    margin-right: 10px;
+  }
+  a {
+    color: $purple;
+  }
+  .material-icons {
+    vertical-align: middle;
+    font-size: 15px;
+  }
+}
+
+.true {
+  text-decoration: line-through;
+  font-style: italic;
+}
